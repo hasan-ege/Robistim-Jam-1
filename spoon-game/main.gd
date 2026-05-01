@@ -7,7 +7,7 @@ const GEAR_END : float = 520
 # 마지막 노트가 끝난 후 이 여백동안 대기했다가 게임이 끝남
 const ENDPOS_BIAS : float = +2.0
 # 보조선 간격(초)
-const SUBLINE_LENGTH : float = 1.0
+const SUBLINE_LENGTH : float = 0.25
 # 자동 플레이 플래그
 const AUTOPLAY : bool = false
 # 기록 모드 (true로 설정하면 tuşa bastığın anlar konsola yazılır)
@@ -257,7 +257,8 @@ func _process(_delta) -> void:
 		subLineArray.pop_front()
 		var line : Line2D = Line2D.new()
 		line.width = 1
-		line.points = [Vector2(100, 0), Vector2(500, 0)]
+		line.points = [Vector2(50, 0), Vector2(150, 0)]
+		line.default_color = Color(1, 1, 1, 0.1) # Daha şık, hafif şeffaf beyaz
 		$sublinecontainer.add_child(line)
 		
 	# 보조선 이동 & 삭제
