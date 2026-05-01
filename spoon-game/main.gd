@@ -1,7 +1,9 @@
 extends Node2D
 
-# Ekranda vurulması gereken mükemmel Y koordinatı
-const PERFECT_YPOS : float = 950
+# Ekranda vurulması gereken mükemmel Y koordinatı (Dinamik olarak hesaplanacak)
+var PERFECT_YPOS : float = 950
+# Notanın akacağı dikey şerit (Dinamik olarak hesaplanacak)
+var note_lane : float = 100
 # Dişli (Gear) arayüzünün Y eksenindeki bitiş noktası
 const GEAR_END : float = 1300
 # Son nota bittikten sonra oyunun sonlanması için beklenecek ekstra süre
@@ -11,7 +13,11 @@ const SUBLINE_LENGTH : float = 0.25
 # Otomatik oynatma modu bayrağı
 const AUTOPLAY : bool = false
 # Kayıt modu (true yapılırsa basılan anlar konsola yazılır)
-const RECORD_MODE : bool = false
+const RECORD_MODE : bool = true
+# Şarkı BPM'i (Grid hizalaması için)
+@export var bpm : float = 120.0
+# Grid bölüntüsü (1/4lük nota için 4, 1/8lik için 8 vb.)
+@export var snap_division : int = 8
 # Kanalın tuş kodları (Input Map üzerinden eklenebilir)
 @export var keycodes : PackedStringArray
 # Müziği buradan veya Editor üzerinden seçebilirsin
@@ -41,7 +47,7 @@ const RECORD_MODE : bool = false
 
 # Nota verileri (Artık tek kanal üzerinden akıyor)
 @export var noteArray      : Array = [
-	[[0.03, 0], [0.19, 1], [0.45, 1], [0.84, 1], [0.99, 1], [1.38, 1], [2.98, 1], [3.38, 1], [3.65, 1], [4.18, 1], [4.45, 1], [4.71, 1], [5.12, 1], [5.38, 0], [5.64, 1], [5.91, 0], [6.44, 0], [6.85, 1], [7.26, 1], [7.78, 1], [8.72, 1], [8.99, 1], [9.66, 0], [11.8, 0], [12.2, 1], [12.86, 0], [13.4, 0], [13.93, 0], [14.2, 1], [14.47, 0], [15.0, 1], [15.41, 0], [16.34, 1], [16.6, 0], [16.88, 0], [17.28, 1], [18.22, 0], [18.61, 1], [19.02, 0], [20.09, 1], [20.61, 1], [20.87, 0], [21.15, 1], [21.82, 1], [22.22, 1], [22.49, 1], [22.89, 1], [23.56, 0], [23.82, 1], [24.09, 0], [24.62, 1], [24.89, 1], [25.16, 0], [25.57, 0], [26.23, 0], [26.63, 1], [27.03, 1], [28.36, 0], [28.9, 0], [29.16, 1], [29.43, 0], [29.71, 0], [29.97, 1], [30.37, 1], [31.3, 1], [31.57, 0], [32.1, 0], [32.51, 0], [33.44, 1], [34.25, 0], [34.64, 0], [36.65, 1], [36.92, 0], [37.19, 0], [37.45, 1], [37.99, 0], [38.52, 0], [39.06, 0], [39.59, 0], [39.86, 1], [40.12, 0], [40.66, 1], [41.19, 0], [41.6, 1], [41.99, 1], [42.26, 0], [42.67, 1], [42.93, 1], [43.2, 1], [43.73, 1], [44.4, 0], [44.66, 0], [45.74, 0], [46.27, 1], [46.81, 1], [47.21, 1], [47.47, 0], [47.88, 1], [48.13, 0], [48.4, 1], [48.95, 0], [49.21, 0], [49.48, 0], [50.02, 1], [50.54, 0], [51.08, 0], [51.62, 1], [54.02, 1], [54.56, 1], [54.82, 0], [56.16, 0], [56.44, 0], [56.69, 0], [56.96, 1], [58.17, 0], [58.83, 0], [59.09, 1], [60.04, 1], [60.98, 0], [61.37, 1], [61.78, 1], [62.58, 0], [62.84, 1], [63.11, 0], [64.18, 0], [64.57, 1], [64.98, 1], [66.32, 1], [66.58, 0], [66.85, 1], [67.38, 0], [67.65, 1], [67.92, 0], [68.45, 0], [68.99, 0], [69.39, 1], [69.79, 1], [71.4, 1], [71.92, 1], [72.19, 0], [72.72, 0], [73.13, 1], [74.06, 1], [74.33, 0], [74.86, 0], [75.27, 1], [75.67, 1], [76.2, 1], [77.01, 1], [77.4, 1], [78.08, 1], [78.34, 1], [79.68, 1], [80.21, 0], [80.48, 0], [80.75, 1], [81.82, 0], [82.62, 1], [82.88, 0], [84.75, 1], [85.02, 0], [85.96, 0], [86.37, 1], [86.89, 1], [90.37, 0], [90.64, 1], [91.17, 1], [91.44, 0], [91.97, 0], [92.51, 0], [93.04, 0], [93.31, 1], [93.58, 0], [94.11, 0], [94.38, 1], [94.64, 0], [94.91, 1], [95.18, 0], [96.78, 1], [97.31, 0], [97.58, 1], [97.85, 0], [98.26, 1], [98.92, 0], [99.45, 0], [99.72, 1], [99.99, 0], [100.39, 1], [100.93, 1], [101.33, 0], [101.73, 1], [101.99, 1], [102.53, 1], [102.79, 0], [103.06, 1], [103.47, 1], [103.72, 0], [103.99, 1], [104.8, 0], [105.34, 0], [105.6, 1], [105.87, 0], [106.13, 1], [106.94, 0], [107.33, 1], [108.01, 0], [108.27, 1], [108.54, 0], [108.95, 1], [109.34, 1], [109.61, 0], [109.88, 1], [110.14, 0], [110.41, 0], [110.68, 0], [111.08, 1], [111.35, 1], [112.69, 1], [114.68, 0], [114.95, 0], [115.23, 0], [115.89, 1], [116.3, 1], [116.82, 1], [117.09, 0], [117.62, 0], [118.03, 1], [118.96, 1], [119.77, 1], [120.16, 0], [120.57, 1], [120.84, 0], [121.1, 1], [121.9, 0], [122.44, 0], [122.71, 0], [122.97, 0], [123.24, 1], [123.51, 0], [124.04, 0], [124.58, 0], [124.84, 1], [125.11, 0], [125.38, 1], [125.64, 0], [126.18, 0], [126.44, 1], [126.71, 0], [127.25, 1], [127.51, 1], [127.78, 1], [129.13, 1], [129.65, 1], [130.46, 0], [130.86, 1], [131.26, 1], [131.53, 0], [131.78, 1], [132.05, 0], [132.33, 1], [132.59, 1], [132.86, 1], [133.4, 0], [133.92, 1], [134.73, 0], [135.27, 0], [136.07, 1], [136.34, 0], [136.87, 0], [137.26, 1], [138.21, 1], [138.47, 0], [138.74, 1], [139.54, 1], [140.07, 0], [140.34, 1], [140.88, 1], [141.28, 1], [141.55, 1], [142.21, 0], [142.48, 1], [143.81, 1], [144.09, 0], [144.35, 1], [144.61, 0], [145.16, 0], [145.55, 1], [146.49, 1], [146.89, 1], [147.3, 0], [148.1, 1], [148.36, 0], [148.89, 0], [149.43, 1], [150.09, 1], [151.03, 1], [151.57, 0], [152.23, 1], [152.9, 0], [153.17, 1], [154.11, 1], [155.45, 0], [156.51, 1], [157.18, 0], [157.44, 0], [157.71, 0], [158.24, 1], [158.52, 1], [159.06, 1], [159.32, 0], [159.58, 0], [159.85, 0], [160.39, 1], [160.66, 0], [160.93, 0], [161.19, 0], [161.46, 0], [161.72, 1], [161.98, 1], [162.8, 1], [163.6, 0], [164.4, 1], [165.07, 0], [165.73, 0], [166.0, 1], [166.27, 0], [166.8, 1], [167.2, 1], [168.14, 1], [168.4, 1], [168.81, 1], [169.47, 0], [170.0, 0], [170.27, 1], [170.54, 0], [170.82, 1], [171.07, 0], [172.15, 0], [172.55, 0], [172.95, 1]]
+	[[0.03, 0], [0.19, 1], [0.45, 0], [0.84, 1], [0.99, 1], [1.38, 0], [2.98, 1], [3.38, 1], [3.65, 0], [4.18, 1], [4.45, 0], [4.71, 1], [5.12, 1], [5.38, 0], [5.64, 1], [5.91, 0], [6.44, 1], [6.85, 0], [7.26, 1], [7.78, 1], [8.72, 0], [8.99, 1], [9.66, 0], [11.8, 1], [12.2, 0], [12.86, 1], [13.4, 0], [13.93, 1], [14.2, 0], [14.47, 1], [15.0, 0], [15.41, 1], [16.34, 0], [16.6, 1], [16.88, 0], [17.28, 1], [18.22, 0], [18.61, 1], [19.02, 0], [20.09, 1], [20.61, 0], [20.87, 1], [21.15, 0], [21.82, 1], [22.22, 0], [22.49, 1], [22.89, 0], [23.56, 1], [23.82, 0], [24.09, 1], [24.62, 0], [24.89, 1], [25.16, 0], [25.57, 1], [26.23, 0], [26.63, 1], [27.03, 0], [28.36, 1], [28.9, 0], [29.16, 1], [29.43, 0], [29.71, 1], [29.97, 0], [30.37, 1], [31.3, 0], [31.57, 1], [32.1, 0], [32.51, 1], [33.44, 0], [34.25, 1], [34.64, 0], [36.65, 1], [36.92, 0], [37.19, 1], [37.45, 0], [37.99, 1], [38.52, 0], [39.06, 1], [39.59, 0], [39.86, 1], [40.12, 0], [40.66, 1], [41.19, 0], [41.6, 1], [41.99, 0], [42.26, 1], [42.67, 0], [42.93, 1], [43.2, 0], [43.73, 1], [44.4, 0], [44.66, 1], [45.74, 0], [46.27, 1], [46.81, 0], [47.21, 1], [47.47, 0], [47.88, 1], [48.13, 0], [48.4, 1], [48.95, 0], [49.21, 1], [49.48, 0], [50.02, 1], [50.54, 0], [51.08, 1], [51.62, 0], [54.02, 1], [54.56, 0], [54.82, 1], [56.16, 0], [56.44, 1], [56.69, 0], [56.96, 1], [58.17, 0], [58.83, 1], [59.09, 0], [60.04, 1], [60.98, 0], [61.37, 1], [61.78, 0], [62.58, 1], [62.84, 0], [63.11, 1], [64.18, 0], [64.57, 1], [64.98, 0], [66.32, 1], [66.58, 0], [66.85, 1], [67.38, 0], [67.65, 1], [67.92, 0], [68.45, 1], [68.99, 0], [69.39, 1], [69.79, 0], [71.4, 1], [71.92, 0], [72.19, 1], [72.72, 0], [73.13, 1], [74.06, 0], [74.33, 1], [74.86, 0], [75.27, 1], [75.67, 0], [76.2, 1], [77.01, 0], [77.4, 1], [78.08, 0], [78.34, 1], [79.68, 0], [80.21, 1], [80.48, 0], [80.75, 1], [81.82, 0], [82.62, 1], [82.88, 0], [84.75, 1], [85.02, 0], [85.96, 1], [86.37, 0], [86.89, 1], [90.37, 0], [90.64, 1], [91.17, 0], [91.44, 1], [91.97, 0], [92.51, 1], [93.04, 0], [93.31, 1], [93.58, 0], [94.11, 1], [94.38, 0], [94.64, 1], [94.91, 0], [95.18, 1], [96.78, 0], [97.31, 1], [97.58, 0], [97.85, 1], [98.26, 0], [98.92, 1], [99.45, 0], [99.72, 1], [99.99, 0], [100.39, 1], [100.93, 0], [101.33, 1], [101.73, 0], [101.99, 1], [102.53, 0], [102.79, 1], [103.06, 0], [103.47, 1], [103.72, 0], [103.99, 1], [104.8, 0], [105.34, 1], [105.6, 0], [105.87, 1], [106.13, 0], [106.94, 1], [107.33, 0], [108.01, 1], [108.27, 0], [108.54, 1], [108.95, 0], [109.34, 1], [109.61, 0], [109.88, 1], [110.14, 0], [110.41, 1], [110.68, 0], [111.08, 1], [111.35, 0], [112.69, 1], [114.68, 0], [114.95, 1], [115.23, 0], [115.89, 1], [116.3, 0], [116.82, 1], [117.09, 0], [117.62, 1], [118.03, 0], [118.96, 1], [119.77, 0], [120.16, 1], [120.57, 0], [120.84, 1], [121.1, 0], [121.9, 1], [122.44, 0], [122.71, 1], [122.97, 0], [123.24, 1], [123.51, 0], [124.04, 1], [124.58, 0], [124.84, 1], [125.11, 0], [125.38, 1], [125.64, 0], [126.18, 1], [126.44, 0], [126.71, 1], [127.25, 0], [127.51, 1], [127.78, 0], [129.13, 1], [129.65, 0], [130.46, 1], [130.86, 0], [131.26, 1], [131.53, 0], [131.78, 1], [132.05, 0], [132.33, 1], [132.59, 0], [132.86, 1], [133.4, 0], [133.92, 1], [134.73, 0], [135.27, 1], [136.07, 0], [136.34, 1], [136.87, 0], [137.26, 1], [138.21, 0], [138.47, 1], [138.74, 0], [139.54, 1], [140.07, 0], [140.34, 1], [140.88, 0], [141.28, 1], [141.55, 0], [142.21, 1], [142.48, 0], [143.81, 1], [144.09, 0], [144.35, 1], [144.61, 0], [145.16, 1], [145.55, 0], [146.49, 1], [146.89, 0], [147.3, 1], [148.1, 0], [148.36, 1], [148.89, 0], [149.43, 1], [150.09, 0], [151.03, 1], [151.57, 0], [152.23, 1], [152.9, 0], [153.17, 1], [154.11, 0], [155.45, 1], [156.51, 0], [157.18, 1], [157.44, 0], [157.71, 1], [158.24, 0], [158.52, 1], [159.06, 0], [159.32, 1], [159.58, 0], [159.85, 1], [160.39, 0], [160.66, 1], [160.93, 0], [161.19, 1], [161.46, 0], [161.72, 1], [161.98, 0], [162.8, 1], [163.6, 0], [164.4, 1], [165.07, 0], [165.73, 1], [166.0, 0], [166.27, 1], [166.8, 0], [167.2, 1], [168.14, 0], [168.4, 1], [168.81, 0], [169.47, 1], [170.0, 0], [170.27, 1], [170.54, 0], [170.82, 1], [171.07, 0], [172.15, 1], [172.55, 0], [172.95, 1]]
 ]
 
 # Kılavuz çizgilerinin verisi
@@ -137,10 +143,13 @@ func addCombo(score_type : String) -> void:
 	if combo > comboMax:
 		comboMax = combo
 	if (score_type == "Perfect"):
-		currentScore += 1.0
+		currentScore += 1111
 	elif (score_type == "Good"):
-		currentScore += 0.7
+		currentScore += 543
+	
 	$combo.text = str(combo)
+	if get_node_or_null("total_score"):
+		$total_score.text = str(int(currentScore))
 	
 	# Update score feedback text and color
 	if get_node_or_null("score"):
@@ -172,8 +181,8 @@ func _ready() -> void:
 	set_process(false)
 	
 	# İkonu yükle (SVG veya PNG)
-	if FileAccess.file_exists("res://assets/clap.svg"):
-		clap_texture = load("res://assets/clap.svg")
+	if FileAccess.file_exists("res://assets/clap.png"):
+		clap_texture = load("res://assets/clap.png")
 		print("Clap SVG loaded")
 	elif FileAccess.file_exists("res://assets/clap_icon.png"):
 		clap_texture = load("res://assets/clap_icon.png")
@@ -181,6 +190,19 @@ func _ready() -> void:
 	
 	if clap_texture and get_node_or_null("ui/target_circle/target_icon"):
 		get_node("ui/target_circle/target_icon").texture = clap_texture
+	
+	# Dinamik koordinat hesaplama (Editor'deki yerleşime göre)
+	if get_node_or_null("ui/target_circle"):
+		var tc = $ui/target_circle
+		# Dairenin dikey merkezi (Local Y) vuruş noktasıdır
+		PERFECT_YPOS = tc.position.y + (tc.size.y / 2.0)
+		
+	if get_node_or_null("pressed1"):
+		var p1 = $pressed1
+		# Highlight kutusunun dikey ortası (ekranda Y ekseni, rotated container'da X ekseni olur)
+		note_lane = p1.offset_top + (p1.offset_bottom - p1.offset_top) / 2.0
+		
+	print("Dinamik Ayarlar: Vuruş Çizgisi=", PERFECT_YPOS, " Şerit=", note_lane)
 	
 	print("NoteArray size: ", noteArray.size())
 	if noteArray.size() == 0:
@@ -334,7 +356,7 @@ func _process(_delta) -> void:
 			note.setNote(1, speed, coordPerFrame, info[1], info[2], clap_texture)
 		
 		$container1.add_child(note)
-		note.position.x = 100
+		note.position.x = note_lane
 		note.position.y = 0
 		# Gecikme telafisi (Zamanlama hassasiyeti için pozisyon düzeltme)
 		note.position.y += coordPerFrame * (currentSongPos - info[0]) / (1.0/60.0)
@@ -345,7 +367,14 @@ func _process(_delta) -> void:
 		subLineArray.pop_front()
 		var line : Line2D = Line2D.new()
 		line.width = 1
-		line.points = [Vector2(50, 0), Vector2(150, 0)]
+		
+		var start_x = 20.0
+		var end_x = 180.0
+		if get_node_or_null("pressed1"):
+			start_x = $pressed1.offset_top
+			end_x = $pressed1.offset_bottom
+			
+		line.points = [Vector2(start_x, 0), Vector2(end_x, 0)]
 		line.default_color = Color(1, 1, 1, 0.1)
 		$sublinecontainer.add_child(line)
 		
@@ -410,10 +439,20 @@ func keyPressed(key_index: int) -> void:
 				tw_c.tween_property(tc, "self_modulate", flash_color, 0.05)
 				tw_c.tween_property(tc, "self_modulate", Color.WHITE, 0.1)
 
-			if get_node_or_null("hit_particles"):
+			if n.score != "Bad" and get_node_or_null("hit_particles"):
 				$hit_particles.global_position = n.global_position
 				var p_color = Color("#F34728") if key_index == 0 else Color("#45C1E9")
 				$hit_particles.color = p_color
+				
+				if n.score == "Perfect":
+					$hit_particles.amount = 75 # %300 miktar
+					$hit_particles.scale_amount_min = 6.0
+					$hit_particles.scale_amount_max = 15.0
+				else:
+					$hit_particles.amount = 25 # %100 miktar
+					$hit_particles.scale_amount_min = 2.0
+					$hit_particles.scale_amount_max = 6.0
+				
 				$hit_particles.restart()
 				$hit_particles.emitting = true
 			play_clap()
@@ -439,17 +478,18 @@ func updateQueue() -> void:
 	for n in queue[0]:
 		if not is_instance_valid(n): continue
 		var m = n.position.y
-		if (m < 810): 
+		var diff = m - PERFECT_YPOS
+		if (diff < -140): 
 			n.score = "Default"
-		elif (m >= 810 and m < 860):
+		elif (diff >= -140 and diff < -90):
 			n.score = "Bad"
-		elif (m >= 860 and m < 910):
+		elif (diff >= -90 and diff < -40):
 			n.score = "Good"
-		elif (m >= 910 and m < 990): # Merkez nokta (950)
+		elif (diff >= -40 and diff <= 40): # Merkez nokta
 			n.score = "Perfect"
-		elif (m >= 990 and m < 1040):
+		elif (diff > 40 and diff <= 90):
 			n.score = "Good"
-		elif (m >= 1040 and m < 1090):
+		elif (diff > 90 and diff <= 140):
 			n.score = "Bad"
 		else:
 			n.score = "Default"
@@ -468,11 +508,15 @@ func _input(event: InputEvent) -> void:
 				else:
 					if (RECORD_MODE):
 						var duration = currentSongPos - recordStart
+						var beat_step = 60.0 / bpm / (snap_division / 4.0)
+						var snapped_start = snapped(recordStart, beat_step)
+						var snapped_duration = snapped(duration, beat_step)
+						
 						if duration < 0.2:
-							recorded_notes.append([snapped(recordStart, 0.01), i])
+							recorded_notes.append([snapped(snapped_start, 0.01), i])
 						else:
-							recorded_notes.append([snapped(recordStart, 0.01), i, snapped(duration, 0.01)])
-						print("Kaydedildi: ", recorded_notes[-1])
+							recorded_notes.append([snapped(snapped_start, 0.01), i, snapped(snapped_duration, 0.01)])
+						print("Kaydedildi (BPM Snapped): ", recorded_notes[-1])
 
 # Tuşun basılı tutulup tutulmadığını görsel geri bildirim için kontrol eder
 func updateInputState() -> void:

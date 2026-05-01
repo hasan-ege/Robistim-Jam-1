@@ -5,8 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://b80g31vcfhncl" path="res://addons/maaacks_game_template/scenes/windows/main_menu_options_window.tscn" id="3_bq81g"]
 [ext_resource type="PackedScene" uid="uid://0c2ihcf4mc0i" path="res://addons/maaacks_game_template/scenes/windows/main_menu_credits_window.tscn" id="4_je2kd"]
 [ext_resource type="PackedScene" uid="uid://cwt4p3bufkke5" path="res://addons/maaacks_game_template/base/nodes/windows/confirmation_overlaid_window.tscn" id="5_c2fgl"]
-
-[sub_resource type="PackedScene" id="PackedScene_ho8tw"]
+[ext_resource type="PackedScene" uid="uid://qm7olitiqehd" path="res://addons/maaacks_game_template/scenes/menus/level_select_menu/level_select_menu.tscn" id="6_level_select"]
 
 [sub_resource type="Animation" id="1"]
 resource_name = "Intro"
@@ -318,7 +317,7 @@ graph_offset = Vector2(-180.277, 49)
 
 [node name="MainMenu" unique_id=589811630 instance=ExtResource("1_ho8tw")]
 script = ExtResource("2_pywib")
-level_select_packed_scene = SubResource("PackedScene_ho8tw")
+level_select_packed_scene = ExtResource("6_level_select")
 confirm_new_game = true
 game_scene_path = "uid://dqo644576we4d"
 options_packed_scene = ExtResource("3_bq81g")
@@ -355,7 +354,7 @@ text = "Continue"
 
 [node name="LevelSelectButton" type="Button" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" index="2" unique_id=78300098]
 unique_name_in_owner = true
-visible = false
+visible = true
 layout_mode = 2
 text = "Level Select"
 
