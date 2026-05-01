@@ -28,18 +28,22 @@ const RECORD_MODE : bool = false
 @export_range(0, 1) var sfx_reverb_room : float = 0.9
 
 # Müzik çalar düğümünün (node) yolu
-@export_node_path("AudioStreamPlayer") var audio
+@export var audio_node_path : NodePath = NodePath("audio")
+@onready var audio_node : AudioStreamPlayer = get_node_or_null(audio_node_path)
+
 # Nota sahnesini önceden belleğe yükle
 @onready var noteScene : PackedScene = preload("res://note.tscn")
 # Alkış sesini önceden yükle
-@onready var clap_stream : AudioStream = preload("res://clap.mp3")
+@onready var clap_stream : AudioStream = preload("res://assets/clap.mp3")
 
 # Notanın (y=0)'dan (y=PERFECT_YPOS)'a inmesi için gereken süre
-var speed : float = 1.0
+@export var speed : float = 1.0
+
 # Nota verileri (Artık tek kanal üzerinden akıyor)
-var noteArray      : Array = [
+@export var noteArray      : Array = [
 	[[0.03, 0], [0.19, 1], [0.45, 1], [0.84, 1], [0.99, 1], [1.38, 1], [2.98, 1], [3.38, 1], [3.65, 1], [4.18, 1], [4.45, 1], [4.71, 1], [5.12, 1], [5.38, 0], [5.64, 1], [5.91, 0], [6.44, 0], [6.85, 1], [7.26, 1], [7.78, 1], [8.72, 1], [8.99, 1], [9.66, 0], [11.8, 0], [12.2, 1], [12.86, 0], [13.4, 0], [13.93, 0], [14.2, 1], [14.47, 0], [15.0, 1], [15.41, 0], [16.34, 1], [16.6, 0], [16.88, 0], [17.28, 1], [18.22, 0], [18.61, 1], [19.02, 0], [20.09, 1], [20.61, 1], [20.87, 0], [21.15, 1], [21.82, 1], [22.22, 1], [22.49, 1], [22.89, 1], [23.56, 0], [23.82, 1], [24.09, 0], [24.62, 1], [24.89, 1], [25.16, 0], [25.57, 0], [26.23, 0], [26.63, 1], [27.03, 1], [28.36, 0], [28.9, 0], [29.16, 1], [29.43, 0], [29.71, 0], [29.97, 1], [30.37, 1], [31.3, 1], [31.57, 0], [32.1, 0], [32.51, 0], [33.44, 1], [34.25, 0], [34.64, 0], [36.65, 1], [36.92, 0], [37.19, 0], [37.45, 1], [37.99, 0], [38.52, 0], [39.06, 0], [39.59, 0], [39.86, 1], [40.12, 0], [40.66, 1], [41.19, 0], [41.6, 1], [41.99, 1], [42.26, 0], [42.67, 1], [42.93, 1], [43.2, 1], [43.73, 1], [44.4, 0], [44.66, 0], [45.74, 0], [46.27, 1], [46.81, 1], [47.21, 1], [47.47, 0], [47.88, 1], [48.13, 0], [48.4, 1], [48.95, 0], [49.21, 0], [49.48, 0], [50.02, 1], [50.54, 0], [51.08, 0], [51.62, 1], [54.02, 1], [54.56, 1], [54.82, 0], [56.16, 0], [56.44, 0], [56.69, 0], [56.96, 1], [58.17, 0], [58.83, 0], [59.09, 1], [60.04, 1], [60.98, 0], [61.37, 1], [61.78, 1], [62.58, 0], [62.84, 1], [63.11, 0], [64.18, 0], [64.57, 1], [64.98, 1], [66.32, 1], [66.58, 0], [66.85, 1], [67.38, 0], [67.65, 1], [67.92, 0], [68.45, 0], [68.99, 0], [69.39, 1], [69.79, 1], [71.4, 1], [71.92, 1], [72.19, 0], [72.72, 0], [73.13, 1], [74.06, 1], [74.33, 0], [74.86, 0], [75.27, 1], [75.67, 1], [76.2, 1], [77.01, 1], [77.4, 1], [78.08, 1], [78.34, 1], [79.68, 1], [80.21, 0], [80.48, 0], [80.75, 1], [81.82, 0], [82.62, 1], [82.88, 0], [84.75, 1], [85.02, 0], [85.96, 0], [86.37, 1], [86.89, 1], [90.37, 0], [90.64, 1], [91.17, 1], [91.44, 0], [91.97, 0], [92.51, 0], [93.04, 0], [93.31, 1], [93.58, 0], [94.11, 0], [94.38, 1], [94.64, 0], [94.91, 1], [95.18, 0], [96.78, 1], [97.31, 0], [97.58, 1], [97.85, 0], [98.26, 1], [98.92, 0], [99.45, 0], [99.72, 1], [99.99, 0], [100.39, 1], [100.93, 1], [101.33, 0], [101.73, 1], [101.99, 1], [102.53, 1], [102.79, 0], [103.06, 1], [103.47, 1], [103.72, 0], [103.99, 1], [104.8, 0], [105.34, 0], [105.6, 1], [105.87, 0], [106.13, 1], [106.94, 0], [107.33, 1], [108.01, 0], [108.27, 1], [108.54, 0], [108.95, 1], [109.34, 1], [109.61, 0], [109.88, 1], [110.14, 0], [110.41, 0], [110.68, 0], [111.08, 1], [111.35, 1], [112.69, 1], [114.68, 0], [114.95, 0], [115.23, 0], [115.89, 1], [116.3, 1], [116.82, 1], [117.09, 0], [117.62, 0], [118.03, 1], [118.96, 1], [119.77, 1], [120.16, 0], [120.57, 1], [120.84, 0], [121.1, 1], [121.9, 0], [122.44, 0], [122.71, 0], [122.97, 0], [123.24, 1], [123.51, 0], [124.04, 0], [124.58, 0], [124.84, 1], [125.11, 0], [125.38, 1], [125.64, 0], [126.18, 0], [126.44, 1], [126.71, 0], [127.25, 1], [127.51, 1], [127.78, 1], [129.13, 1], [129.65, 1], [130.46, 0], [130.86, 1], [131.26, 1], [131.53, 0], [131.78, 1], [132.05, 0], [132.33, 1], [132.59, 1], [132.86, 1], [133.4, 0], [133.92, 1], [134.73, 0], [135.27, 0], [136.07, 1], [136.34, 0], [136.87, 0], [137.26, 1], [138.21, 1], [138.47, 0], [138.74, 1], [139.54, 1], [140.07, 0], [140.34, 1], [140.88, 1], [141.28, 1], [141.55, 1], [142.21, 0], [142.48, 1], [143.81, 1], [144.09, 0], [144.35, 1], [144.61, 0], [145.16, 0], [145.55, 1], [146.49, 1], [146.89, 1], [147.3, 0], [148.1, 1], [148.36, 0], [148.89, 0], [149.43, 1], [150.09, 1], [151.03, 1], [151.57, 0], [152.23, 1], [152.9, 0], [153.17, 1], [154.11, 1], [155.45, 0], [156.51, 1], [157.18, 0], [157.44, 0], [157.71, 0], [158.24, 1], [158.52, 1], [159.06, 1], [159.32, 0], [159.58, 0], [159.85, 0], [160.39, 1], [160.66, 0], [160.93, 0], [161.19, 0], [161.46, 0], [161.72, 1], [161.98, 1], [162.8, 1], [163.6, 0], [164.4, 1], [165.07, 0], [165.73, 0], [166.0, 1], [166.27, 0], [166.8, 1], [167.2, 1], [168.14, 1], [168.4, 1], [168.81, 1], [169.47, 0], [170.0, 0], [170.27, 1], [170.54, 0], [170.82, 1], [171.07, 0], [172.15, 0], [172.55, 0], [172.95, 1]]
 ]
+
 # Kılavuz çizgilerinin verisi
 var subLineArray   : Array = []
 # Mevcut şarkının çalma süresi (saniye cinsinden)
@@ -168,84 +172,109 @@ func _ready() -> void:
 	set_process(false)
 	
 	# İkonu yükle (SVG veya PNG)
-	if FileAccess.file_exists("res://clap.svg"):
-		clap_texture = load("res://clap.svg")
-	elif FileAccess.file_exists("res://clap_icon.png"):
-		clap_texture = load("res://clap_icon.png")
+	if FileAccess.file_exists("res://assets/clap.svg"):
+		clap_texture = load("res://assets/clap.svg")
+		print("Clap SVG loaded")
+	elif FileAccess.file_exists("res://assets/clap_icon.png"):
+		clap_texture = load("res://assets/clap_icon.png")
+		print("Clap PNG loaded")
 	
 	if clap_texture and get_node_or_null("ui/target_circle/target_icon"):
 		get_node("ui/target_circle/target_icon").texture = clap_texture
+	
+	print("NoteArray size: ", noteArray.size())
+	if noteArray.size() == 0:
+		print("ERROR: noteArray is empty!")
+		return
 	
 	# Tuş atamalarını garantiye al
 	if keycodes.size() < 2:
 		keycodes = PackedStringArray(["D", "K"])
 	
 	# Nota verilerini kronolojik olarak sıralar
-	noteArray[0].sort_custom(func(a, b): return a[0] < b[0])
+	if noteArray.size() > 0 and noteArray[0].size() > 0:
+		noteArray[0].sort_custom(func(a, b): return a[0] < b[0])
+
 	
 	# Girdi hassasiyetini artır (saniyede 240 fiziksel kontrol)
 	Engine.physics_ticks_per_second = 240
 	Input.use_accumulated_input = false
 	
-	if (get_node_or_null("pressed1")):
+	if get_node_or_null("pressed1"):
 		get_node("pressed1").visible = false
 	
-	if (len(keycodes) < 1):
-		OS.alert("Lütfen en az bir tuş ataması yapın (keycode)")
-	
-	if (audio == null):
-		OS.alert("Lütfen bir AudioStreamPlayer düğümü belirleyin")
-	
+	if (audio_node == null):
+		print("ERROR: AudioStreamPlayer node not found at path: ", audio_node_path)
+		return
+		
 	# Müziği değişkenden yükle
 	if (music != null):
-		get_node(audio).stream = music
+		audio_node.stream = music
 	
-	# Ses seviyelerini ayarla
-	get_node(audio).volume_db = linear_to_db(music_volume)
-	
-	# Müzik için Yankı (Reverb) Efekti Oluştur
-	var reverb_bus_idx = AudioServer.bus_count
-	AudioServer.add_bus(reverb_bus_idx)
-	AudioServer.set_bus_name(reverb_bus_idx, "MusicReverb")
-	AudioServer.set_bus_send(reverb_bus_idx, "Master")
-	
-	var reverb_effect = AudioEffectReverb.new()
-	reverb_effect.room_size = music_reverb_room
-	reverb_effect.damping = 0.3
-	reverb_effect.wet = music_reverb_wet
-	reverb_effect.dry = 0.8
-	
-	AudioServer.add_bus_effect(reverb_bus_idx, reverb_effect)
-	get_node(audio).bus = "MusicReverb"
+	if (audio_node.stream == null):
+		print("ERROR: No music stream assigned!")
+		return
 
-	# Ses Efektleri (Alkış) için Yankı (Reverb) Efekti Oluştur
-	var sfx_bus_idx = AudioServer.bus_count
-	AudioServer.add_bus(sfx_bus_idx)
-	AudioServer.set_bus_name(sfx_bus_idx, "SFXReverb")
-	AudioServer.set_bus_send(sfx_bus_idx, "Master")
+	# Ses seviyelerini ayarla
+	audio_node.volume_db = linear_to_db(music_volume)
 	
-	var sfx_reverb = AudioEffectReverb.new()
-	sfx_reverb.room_size = sfx_reverb_room
-	sfx_reverb.damping = 0.2
-	sfx_reverb.wet = sfx_reverb_wet
-	AudioServer.add_bus_effect(sfx_bus_idx, sfx_reverb)
+	# Audio Bus işlemleri (MusicReverb)
+	var reverb_bus_idx = AudioServer.get_bus_index("MusicReverb")
+	if reverb_bus_idx == -1:
+		reverb_bus_idx = AudioServer.bus_count
+		AudioServer.add_bus(reverb_bus_idx)
+		AudioServer.set_bus_name(reverb_bus_idx, "MusicReverb")
+		AudioServer.set_bus_send(reverb_bus_idx, "Master")
+		var reverb_effect = AudioEffectReverb.new()
+		reverb_effect.room_size = music_reverb_room
+		reverb_effect.damping = 0.3
+		reverb_effect.wet = music_reverb_wet
+		reverb_effect.dry = 0.8
+		AudioServer.add_bus_effect(reverb_bus_idx, reverb_effect)
+	
+	audio_node.bus = "MusicReverb"
+
+	# Audio Bus işlemleri (SFXReverb)
+	var sfx_bus_idx = AudioServer.get_bus_index("SFXReverb")
+	if sfx_bus_idx == -1:
+		sfx_bus_idx = AudioServer.bus_count
+		AudioServer.add_bus(sfx_bus_idx)
+		AudioServer.set_bus_name(sfx_bus_idx, "SFXReverb")
+		AudioServer.set_bus_send(sfx_bus_idx, "Master")
+		var sfx_reverb = AudioEffectReverb.new()
+		sfx_reverb.room_size = sfx_reverb_room
+		sfx_reverb.damping = 0.2
+		sfx_reverb.wet = sfx_reverb_wet
+		AudioServer.add_bus_effect(sfx_bus_idx, sfx_reverb)
 		
-	if (get_node(audio).stream == null):
-		OS.alert("Lütfen müzik (stream) belirleyin")
+	print("Audio setup complete.")
 		
-	noteArray[0] = getCorrectArr(noteArray[0], speed)
-	coordPerFrame = getCoordPerFrame(speed, PERFECT_YPOS)
-	endPos = getEndPos(noteArray[0], speed, ENDPOS_BIAS)
+	if noteArray.size() > 0:
+		noteArray[0] = getCorrectArr(noteArray[0], speed)
+		coordPerFrame = getCoordPerFrame(speed, PERFECT_YPOS)
+		endPos = getEndPos(noteArray[0], speed, ENDPOS_BIAS)
+		subLineArray = getSubLineArr(endPos, speed, SUBLINE_LENGTH)
+		maximumScore = getMaximumScore(noteArray)
+	else:
+		print("ERROR: noteArray is empty!")
+		return
 	
-	subLineArray = getSubLineArr(endPos, speed, SUBLINE_LENGTH)
-	maximumScore = getMaximumScore(noteArray)
+	# Apply flash theme to game UI if possible
+	var flash_theme = load("res://flash_theme.tres")
+	if flash_theme:
+		if get_node_or_null("combo"): $combo.theme = flash_theme
+		if get_node_or_null("score"): $score.theme = flash_theme
+		if get_node_or_null("level_complete_ui/CenterContainer/PanelContainer"):
+			$level_complete_ui/CenterContainer/PanelContainer.theme = flash_theme
 	
-	if (AUTOPLAY):
-		$isautoplay.visible = true
-	
+	if get_node_or_null("level_complete_ui/CenterContainer/PanelContainer/VBoxContainer/MenuButton"):
+		$level_complete_ui/CenterContainer/PanelContainer/VBoxContainer/MenuButton.pressed.connect(func(): get_tree().change_scene_to_file("res://addons/maaacks_game_template/scenes/menus/main_menu/main_menu.tscn"))
+
 	# Müziği 4 saniye sonra başlatacak şekilde süreci hemen başlat
 	currentSongPos = -4.0
+	print("Game initialized, starting countdown...")
 	set_process(true)
+
 
 func _process(_delta) -> void:
 	# Müziğin oynatıldığı anki zamanı alır veya geri sayımı yönetir
@@ -253,9 +282,11 @@ func _process(_delta) -> void:
 		currentSongPos += _delta
 		if currentSongPos >= 0:
 			print("Oyun Başladı")
-			get_node(audio).play()
+			audio_node.play()
+
 	else:
-		currentSongPos = get_node(audio).get_playback_position()
+		currentSongPos = audio_node.get_playback_position()
+
 		currentSongPos -= AudioServer.get_output_latency()
 	
 	# Oyunun bitişini kontrol eder
@@ -267,6 +298,12 @@ func _process(_delta) -> void:
 			print("--- KAYDEDİLEN BEATMAP ---")
 			print(recorded_notes)
 			print("--- SON ---")
+		
+		# Show level complete UI
+		if get_node_or_null("level_complete_ui"):
+			$level_complete_ui.visible = true
+			Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+			
 		set_process(false)
 		return
 	
@@ -287,7 +324,8 @@ func _process(_delta) -> void:
 			queue[0].pop_front()
 		
 	# Zamanı gelen notaları ekranda oluşturur
-	if (noteArray[0] and noteArray[0][0][0] <= currentSongPos):
+	if (noteArray[0].size() > 0 and noteArray[0][0][0] <= currentSongPos):
+
 		var note : Note = noteScene.instantiate()
 		var info : Array = noteArray[0].pop_front()
 		if (len(info) == 2):
@@ -401,20 +439,21 @@ func updateQueue() -> void:
 	for n in queue[0]:
 		if not is_instance_valid(n): continue
 		var m = n.position.y
-		if (m < 710): 
+		if (m < 810): 
 			n.score = "Default"
-		elif (m >= 710 and m < 760):
+		elif (m >= 810 and m < 860):
 			n.score = "Bad"
-		elif (m >= 760 and m < 810):
+		elif (m >= 860 and m < 910):
 			n.score = "Good"
-		elif (m >= 810 and m < 890): # Merkez nokta (850)
+		elif (m >= 910 and m < 990): # Merkez nokta (950)
 			n.score = "Perfect"
-		elif (m >= 890 and m < 940):
+		elif (m >= 990 and m < 1040):
 			n.score = "Good"
-		elif (m >= 940 and m < 990):
+		elif (m >= 1040 and m < 1090):
 			n.score = "Bad"
 		else:
 			n.score = "Default"
+
 
 # Sistem girdilerini (Input) en yüksek hassasiyetle yakalar
 func _input(event: InputEvent) -> void:

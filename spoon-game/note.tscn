@@ -1,10 +1,13 @@
 [gd_scene load_steps=5 format=3 uid="uid://bhl1tw7dyybxh"]
 
 [ext_resource type="Script" path="res://note.gd" id="1_dk57e"]
-[ext_resource type="Texture2D" path="res://clap.svg" id="2_icon"]
+[ext_resource type="Texture2D" path="res://assets/clap.svg" id="2_icon"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_capsule"]
 bg_color = Color(0.537255, 0.537255, 0.537255, 1)
+border_width_left = 3
+border_width_right = 3
+border_color = Color(0, 0, 0, 1)
 corner_radius_top_left = 50
 corner_radius_top_right = 50
 corner_radius_bottom_right = 50
@@ -12,6 +15,11 @@ corner_radius_bottom_left = 50
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_circle_end"]
 bg_color = Color(1, 1, 1, 1)
+border_width_left = 3
+border_width_top = 3
+border_width_right = 3
+border_width_bottom = 3
+border_color = Color(0, 0, 0, 1)
 corner_radius_top_left = 50
 corner_radius_top_right = 50
 corner_radius_bottom_right = 50
@@ -19,12 +27,19 @@ corner_radius_bottom_left = 50
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_circle"]
 bg_color = Color(1, 1, 1, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(0, 0, 0, 1)
 corner_radius_top_left = 50
 corner_radius_top_right = 50
 corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
-shadow_color = Color(1, 1, 1, 0.235294)
-shadow_size = 10
+shadow_color = Color(0, 0, 0, 0.2)
+shadow_size = 6
+shadow_offset = Vector2(0, 4)
+
 
 [node name="note" type="Node2D"]
 script = ExtResource("1_dk57e")
