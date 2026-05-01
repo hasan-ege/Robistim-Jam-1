@@ -21,12 +21,30 @@ var longnoteScore : String = ""
 # 롱노트 콤보에 해당하는 좌표 큐
 var longnoteComboQueue : Array = []
 
-func setNote(_channel : int, _speed : float, _coordPerFrame : float, _longnoteTime : float = -1.0) -> void:
+var note_type: int = 0
+
+func setNote(_channel : int, _speed : float, _coordPerFrame : float, _type : int, _longnoteTime : float = -1.0, _texture : Texture2D = null) -> void:
 	self.position.y = 0.0
 	channel = _channel
 	speed = _speed
 	coordPerFrame = _coordPerFrame
 	effect = $LN_Effect
+	note_type = _type
+	
+	# Taiko style coloring (0: Red/Don, 1: Blue/Ka)
+	var colors = [Color("#F34728"), Color("#45C1E9")]
+	if note_type < colors.size():
+		var style = $bar.get_theme_stylebox("panel").duplicate()
+		style.bg_color = colors[note_type]
+		$bar.add_theme_stylebox_override("panel", style)
+		
+	# İkonu ata
+	if _texture:
+		$bar/icon.texture = _texture
+		$bar/icon.visible = true
+	else:
+		$bar/icon.visible = false
+
 	# 롱노트 설정
 	if (_longnoteTime != -1.0):
 		isLongnote = true
@@ -61,7 +79,7 @@ func longnoteFailed():
 	$LN_Effect.add_theme_stylebox_override("panel", style)
 
 func _process(_delta):
-	self.position.y += coordPerFrame
+	self.position.y += coordPerFrame * (_delta * 60.0)
 	# 롱노트이고 콤보 큐가 비어있지 않다면 콤보를 더한다.
 	if (isLongnote and longnoteComboQueue != []):
 		if (position.y >= longnoteComboQueue[0]):

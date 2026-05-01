@@ -1,6 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bhl1tw7dyybxh"]
 
 [ext_resource type="Script" path="res://note.gd" id="1_dk57e"]
+[ext_resource type="Texture2D" path="res://clap.svg" id="2_icon"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_capsule"]
 bg_color = Color(0.537255, 0.537255, 0.537255, 1)
@@ -47,3 +48,14 @@ offset_top = -20.0
 offset_right = 20.0
 offset_bottom = 20.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_circle")
+
+[node name="icon" type="TextureRect" parent="bar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_icon")
+expand_mode = 1
+stretch_mode = 5
