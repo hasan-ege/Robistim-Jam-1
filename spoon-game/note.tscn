@@ -1,21 +1,49 @@
-[gd_scene load_steps=2 format=3 uid="uid://bhl1tw7dyybxh"]
+[gd_scene load_steps=5 format=3 uid="uid://bhl1tw7dyybxh"]
 
 [ext_resource type="Script" path="res://note.gd" id="1_dk57e"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_capsule"]
+bg_color = Color(0.537255, 0.537255, 0.537255, 1)
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_circle_end"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_circle"]
+bg_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
+shadow_color = Color(1, 1, 1, 0.235294)
+shadow_size = 10
 
 [node name="note" type="Node2D"]
 script = ExtResource("1_dk57e")
 
-[node name="LN_Effect" type="ColorRect" parent="."]
-offset_right = 100.0
-color = Color(0.537255, 0.537255, 0.537255, 1)
+[node name="LN_Effect" type="Panel" parent="."]
+offset_left = -20.0
+offset_right = 20.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_capsule")
 
-[node name="LN_EffectEnd" type="ColorRect" parent="."]
+[node name="LN_EffectEnd" type="Panel" parent="."]
 visible = false
-offset_top = -3.0
-offset_right = 100.0
-offset_bottom = 3.0
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_circle_end")
 
-[node name="bar" type="ColorRect" parent="."]
-offset_top = -3.0
-offset_right = 100.0
-offset_bottom = 3.0
+[node name="bar" type="Panel" parent="."]
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_circle")

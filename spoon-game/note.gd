@@ -22,7 +22,7 @@ var longnoteScore : String = ""
 var longnoteComboQueue : Array = []
 
 func setNote(_channel : int, _speed : float, _coordPerFrame : float, _longnoteTime : float = -1.0) -> void:
-	self.global_position.y = 0.0
+	self.position.y = 0.0
 	channel = _channel
 	speed = _speed
 	coordPerFrame = _coordPerFrame
@@ -39,7 +39,7 @@ func setNote(_channel : int, _speed : float, _coordPerFrame : float, _longnoteTi
 
 func longnoteStart():
 	longnoteScore = score
-	var longnoteStartPos = global_position.y
+	var longnoteStartPos = position.y
 	var step = 10 / speed
 	var index = snapped(longnoteStartPos, 1)
 	var tempComboQueue = []
@@ -56,12 +56,14 @@ func longnoteStart():
 
 func longnoteFailed():
 	longnoteComboQueue.clear()
-	$LN_Effect.color = Color("d38b8e")
+	var style = $LN_Effect.get_theme_stylebox("panel").duplicate()
+	style.bg_color = Color("d38b8e")
+	$LN_Effect.add_theme_stylebox_override("panel", style)
 
 func _process(_delta):
-	self.global_position.y += coordPerFrame
+	self.position.y += coordPerFrame
 	# 롱노트이고 콤보 큐가 비어있지 않다면 콤보를 더한다.
 	if (isLongnote and longnoteComboQueue != []):
-		if (global_position.y >= longnoteComboQueue[0]):
+		if (position.y >= longnoteComboQueue[0]):
 			longnoteComboQueue.pop_front()
 			get_parent().get_parent().addCombo(longnoteScore)
