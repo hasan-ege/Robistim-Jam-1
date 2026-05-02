@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dha6d5f4j3wly" path="res://main.gd" id="1_v38iq"]
 [ext_resource type="AudioStream" path="res://raspberry_jam.ogg" id="2_v8kj3"]
-[ext_resource type="Texture2D" path="res://clap-icon.png" id="3_v38iq"]
+[ext_resource type="Texture2D" path="res://assets/clap_icon.png" id="3_v38iq"]
 [ext_resource type="AudioStream" path="res://clap.mp3" id="4_i2041"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_circle"]
@@ -227,24 +227,24 @@ color = Color(1, 0.341176, 0.227451, 0.0588235)
 [node name="area_good" type="ColorRect" parent="ui" unique_id=1351884114]
 visible = false
 offset_left = 50.0
-offset_top = 900.0
+offset_top = 890.0
 offset_right = 150.0
-offset_bottom = 1000.0
+offset_bottom = 1010.0
 color = Color(0, 1, 0.45098, 0.0784314)
 
 [node name="area_perfect" type="ColorRect" parent="ui" unique_id=1381200000]
 visible = false
 offset_left = 50.0
-offset_top = 940.0
+offset_top = 920.0
 offset_right = 150.0
-offset_bottom = 960.0
+offset_bottom = 980.0
 color = Color(0.713726, 0.360784, 1, 0.156863)
 
 [node name="target_circle" type="Panel" parent="ui" unique_id=999999999]
-offset_left = 66.00004
-offset_top = 983.0
-offset_right = 177.69049
-offset_bottom = 1094.6904
+offset_left = 40.0
+offset_top = 890.0
+offset_right = 160.0
+offset_bottom = 1010.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_circle")
 
 [node name="target_icon" type="TextureRect" parent="ui/target_circle" unique_id=1589984888]
@@ -253,15 +253,17 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 4.0000157
-offset_top = 105.999985
-offset_right = 0.73516846
-offset_bottom = 98.05754
+offset_left = 20.0
+offset_top = 20.0
+offset_right = -20.0
+offset_bottom = -20.0
 grow_horizontal = 2
 grow_vertical = 2
 rotation = -1.5868046
+pivot_offset = Vector2(40, 40)
 texture = ExtResource("3_v38iq")
 expand_mode = 1
+stretch_mode = 5
 
 [node name="combo" type="Label" parent="." unique_id=1887642894]
 offset_left = 129.0

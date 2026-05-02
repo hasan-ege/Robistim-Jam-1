@@ -1,0 +1,10 @@
+{
+  "perfect": "PERFECT",
+  "good": "GOOD",
+  "bad": "BAD",
+  "miss": "MISS",
+  "combo": "COMBO",
+  "score": "SCORE",
+  "level_complete": "LEVEL COMPLETE",
+  "back_to_menu": "BACK TO MENU"
+}

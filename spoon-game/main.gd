@@ -21,6 +21,11 @@ const RECORD_MODE : bool = false
 # Efekt (Alkış) ses seviyesi (0 ile 1 arası)
 @export_range(0, 1) var sfx_volume : float = 1.0
 
+@export var text_miss : String = "Miss"
+@export var text_combo : String = "COMBO"
+@export var text_level_complete : String = "LEVEL COMPLETE"
+@export var text_back_to_menu : String = "BACK TO MENU"
+
 @export_group("Reverb Settings")
 @export_range(0, 1) var music_reverb_wet : float = 0.4
 @export_range(0, 1) var music_reverb_room : float = 0.8
@@ -39,7 +44,7 @@ const RECORD_MODE : bool = false
 # Notanın (y=0)'dan (y=PERFECT_YPOS)'a inmesi için gereken süre
 @export var speed : float = 1.0
 
-# Nota verileri (Artık tek kanal üzerinden akıyor)
+# Nota verileri
 @export var noteArray      : Array = [
 	[[0.03, 0], [0.19, 1], [0.45, 1], [0.84, 1], [0.99, 1], [1.38, 1], [2.98, 1], [3.38, 1], [3.65, 1], [4.18, 1], [4.45, 1], [4.71, 1], [5.12, 1], [5.38, 0], [5.64, 1], [5.91, 0], [6.44, 0], [6.85, 1], [7.26, 1], [7.78, 1], [8.72, 1], [8.99, 1], [9.66, 0], [11.8, 0], [12.2, 1], [12.86, 0], [13.4, 0], [13.93, 0], [14.2, 1], [14.47, 0], [15.0, 1], [15.41, 0], [16.34, 1], [16.6, 0], [16.88, 0], [17.28, 1], [18.22, 0], [18.61, 1], [19.02, 0], [20.09, 1], [20.61, 1], [20.87, 0], [21.15, 1], [21.82, 1], [22.22, 1], [22.49, 1], [22.89, 1], [23.56, 0], [23.82, 1], [24.09, 0], [24.62, 1], [24.89, 1], [25.16, 0], [25.57, 0], [26.23, 0], [26.63, 1], [27.03, 1], [28.36, 0], [28.9, 0], [29.16, 1], [29.43, 0], [29.71, 0], [29.97, 1], [30.37, 1], [31.3, 1], [31.57, 0], [32.1, 0], [32.51, 0], [33.44, 1], [34.25, 0], [34.64, 0], [36.65, 1], [36.92, 0], [37.19, 0], [37.45, 1], [37.99, 0], [38.52, 0], [39.06, 0], [39.59, 0], [39.86, 1], [40.12, 0], [40.66, 1], [41.19, 0], [41.6, 1], [41.99, 1], [42.26, 0], [42.67, 1], [42.93, 1], [43.2, 1], [43.73, 1], [44.4, 0], [44.66, 0], [45.74, 0], [46.27, 1], [46.81, 1], [47.21, 1], [47.47, 0], [47.88, 1], [48.13, 0], [48.4, 1], [48.95, 0], [49.21, 0], [49.48, 0], [50.02, 1], [50.54, 0], [51.08, 0], [51.62, 1], [54.02, 1], [54.56, 1], [54.82, 0], [56.16, 0], [56.44, 0], [56.69, 0], [56.96, 1], [58.17, 0], [58.83, 0], [59.09, 1], [60.04, 1], [60.98, 0], [61.37, 1], [61.78, 1], [62.58, 0], [62.84, 1], [63.11, 0], [64.18, 0], [64.57, 1], [64.98, 1], [66.32, 1], [66.58, 0], [66.85, 1], [67.38, 0], [67.65, 1], [67.92, 0], [68.45, 0], [68.99, 0], [69.39, 1], [69.79, 1], [71.4, 1], [71.92, 1], [72.19, 0], [72.72, 0], [73.13, 1], [74.06, 1], [74.33, 0], [74.86, 0], [75.27, 1], [75.67, 1], [76.2, 1], [77.01, 1], [77.4, 1], [78.08, 1], [78.34, 1], [79.68, 1], [80.21, 0], [80.48, 0], [80.75, 1], [81.82, 0], [82.62, 1], [82.88, 0], [84.75, 1], [85.02, 0], [85.96, 0], [86.37, 1], [86.89, 1], [90.37, 0], [90.64, 1], [91.17, 1], [91.44, 0], [91.97, 0], [92.51, 0], [93.04, 0], [93.31, 1], [93.58, 0], [94.11, 0], [94.38, 1], [94.64, 0], [94.91, 1], [95.18, 0], [96.78, 1], [97.31, 0], [97.58, 1], [97.85, 0], [98.26, 1], [98.92, 0], [99.45, 0], [99.72, 1], [99.99, 0], [100.39, 1], [100.93, 1], [101.33, 0], [101.73, 1], [101.99, 1], [102.53, 1], [102.79, 0], [103.06, 1], [103.47, 1], [103.72, 0], [103.99, 1], [104.8, 0], [105.34, 0], [105.6, 1], [105.87, 0], [106.13, 1], [106.94, 0], [107.33, 1], [108.01, 0], [108.27, 1], [108.54, 0], [108.95, 1], [109.34, 1], [109.61, 0], [109.88, 1], [110.14, 0], [110.41, 0], [110.68, 0], [111.08, 1], [111.35, 1], [112.69, 1], [114.68, 0], [114.95, 0], [115.23, 0], [115.89, 1], [116.3, 1], [116.82, 1], [117.09, 0], [117.62, 0], [118.03, 1], [118.96, 1], [119.77, 1], [120.16, 0], [120.57, 1], [120.84, 0], [121.1, 1], [121.9, 0], [122.44, 0], [122.71, 0], [122.97, 0], [123.24, 1], [123.51, 0], [124.04, 0], [124.58, 0], [124.84, 1], [125.11, 0], [125.38, 1], [125.64, 0], [126.18, 0], [126.44, 1], [126.71, 0], [127.25, 1], [127.51, 1], [127.78, 1], [129.13, 1], [129.65, 1], [130.46, 0], [130.86, 1], [131.26, 1], [131.53, 0], [131.78, 1], [132.05, 0], [132.33, 1], [132.59, 1], [132.86, 1], [133.4, 0], [133.92, 1], [134.73, 0], [135.27, 0], [136.07, 1], [136.34, 0], [136.87, 0], [137.26, 1], [138.21, 1], [138.47, 0], [138.74, 1], [139.54, 1], [140.07, 0], [140.34, 1], [140.88, 1], [141.28, 1], [141.55, 1], [142.21, 0], [142.48, 1], [143.81, 1], [144.09, 0], [144.35, 1], [144.61, 0], [145.16, 0], [145.55, 1], [146.49, 1], [146.89, 1], [147.3, 0], [148.1, 1], [148.36, 0], [148.89, 0], [149.43, 1], [150.09, 1], [151.03, 1], [151.57, 0], [152.23, 1], [152.9, 0], [153.17, 1], [154.11, 1], [155.45, 0], [156.51, 1], [157.18, 0], [157.44, 0], [157.71, 0], [158.24, 1], [158.52, 1], [159.06, 1], [159.32, 0], [159.58, 0], [159.85, 0], [160.39, 1], [160.66, 0], [160.93, 0], [161.19, 0], [161.46, 0], [161.72, 1], [161.98, 1], [162.8, 1], [163.6, 0], [164.4, 1], [165.07, 0], [165.73, 0], [166.0, 1], [166.27, 0], [166.8, 1], [167.2, 1], [168.14, 1], [168.4, 1], [168.81, 1], [169.47, 0], [170.0, 0], [170.27, 1], [170.54, 0], [170.82, 1], [171.07, 0], [172.15, 0], [172.55, 0], [172.95, 1]]
 ]
@@ -78,6 +83,17 @@ var maximumScore   : float   = 0.0
 var recorded_notes : Array = []
 # Dinamik olarak yüklenen alkış ikonu
 var clap_texture : Texture2D
+
+@export var text_perfect : String = "Perfect"
+@export var text_good : String = "Good"
+@export var text_bad : String = "Bad"
+
+# UI Nodes
+@onready var score_value_label : Label
+
+# Particle Pool
+var particle_pool : Array[CPUParticles2D] = []
+var particle_index : int = 0
 
 # Nota zaman verileri içindeki en son zamanı hesaplar
 func getEndPos(array : Array, sp : float, bias : float) -> float:
@@ -142,15 +158,25 @@ func addCombo(score_type : String) -> void:
 		currentScore += 0.7
 	$combo.text = str(combo)
 	
-	# Update score feedback text and color
+	# Combo pop animation (relative scale)
+	var combo_tween = get_tree().create_tween()
+	$combo.pivot_offset = $combo.size / 2
+	combo_tween.tween_property($combo, "scale", Vector2(1.2, 1.2), 0.05).set_trans(Tween.TRANS_SINE)
+	combo_tween.tween_property($combo, "scale", Vector2(1.0, 1.0), 0.1).set_trans(Tween.TRANS_SINE)
+	
+	# Update score feedback text
 	if get_node_or_null("score"):
-		$score.text = score_type
 		match score_type:
-			"Perfect": $score.add_theme_color_override("font_color", Color.GOLD)
-			"Good": $score.add_theme_color_override("font_color", Color.AQUAMARINE)
-			"Bad": $score.add_theme_color_override("font_color", Color.CRIMSON)
+			"Perfect": $score.text = text_perfect
+			"Good": $score.text = text_good
+			"Bad": $score.text = text_bad
 
 	$anim.play(score_type)
+	
+	# Update numerical score
+	if score_value_label:
+		score_value_label.text = str(int(currentScore * 100))
+	
 	await $anim.animation_finished
 	$anim.play("combo")
 	await $anim.animation_finished
@@ -160,8 +186,7 @@ func resetCombo() -> void:
 	combo = 0
 	$combo.text = str(combo)
 	if get_node_or_null("score"):
-		$score.text = "Miss"
-		$score.add_theme_color_override("font_color", Color.GRAY)
+		$score.text = text_miss
 	$anim.play("Bad")
 	await $anim.animation_finished
 	$anim.play("combo")
@@ -171,16 +196,16 @@ func _ready() -> void:
 	Input.set_mouse_mode(Input.MOUSE_MODE_CAPTURED)
 	set_process(false)
 	
-	# İkonu yükle (SVG veya PNG)
-	if FileAccess.file_exists("res://assets/clap.svg"):
-		clap_texture = load("res://assets/clap.svg")
-		print("Clap SVG loaded")
-	elif FileAccess.file_exists("res://assets/clap_icon.png"):
-		clap_texture = load("res://assets/clap_icon.png")
-		print("Clap PNG loaded")
+	# İkonu yükle
+	clap_texture = load("res://assets/clap_icon.png")
+	if clap_texture:
+		print("Clap icon loaded successfully: ", clap_texture)
+	else:
+		print("ERROR: Could not load res://assets/clap_icon.png")
 	
 	if clap_texture and get_node_or_null("ui/target_circle/target_icon"):
-		get_node("ui/target_circle/target_icon").texture = clap_texture
+		$ui/target_circle/target_icon.texture = clap_texture
+		$ui/target_circle/target_icon.visible = true
 	
 	print("NoteArray size: ", noteArray.size())
 	if noteArray.size() == 0:
@@ -258,17 +283,69 @@ func _ready() -> void:
 	else:
 		print("ERROR: noteArray is empty!")
 		return
-	
-	# Apply flash theme to game UI if possible
-	var flash_theme = load("res://flash_theme.tres")
-	if flash_theme:
-		if get_node_or_null("combo"): $combo.theme = flash_theme
-		if get_node_or_null("score"): $score.theme = flash_theme
-		if get_node_or_null("level_complete_ui/CenterContainer/PanelContainer"):
-			$level_complete_ui/CenterContainer/PanelContainer.theme = flash_theme
-	
+
+	# JSON verilerini yükle (Sadece içerik için)
+	var json_path = "res://ui/text/texts.json"
+	if FileAccess.file_exists(json_path):
+		var file = FileAccess.open(json_path, FileAccess.READ)
+		var json_text = file.get_as_text()
+		var json_data = JSON.parse_string(json_text)
+		if json_data:
+			if json_data.has("perfect"): text_perfect = json_data["perfect"]
+			if json_data.has("good"): text_good = json_data["good"]
+			if json_data.has("bad"): text_bad = json_data["bad"]
+			if json_data.has("miss"): text_miss = json_data["miss"]
+			if json_data.has("combo"): text_combo = json_data["combo"]
+			if json_data.has("level_complete"): text_level_complete = json_data["level_complete"]
+			if json_data.has("back_to_menu"): text_back_to_menu = json_data["back_to_menu"]
+
+	# Sadece metinleri güncelle, stillere dokunma!
+	if get_node_or_null("combo/combo_label"):
+		$combo/combo_label.text = text_combo
+	if get_node_or_null("level_complete_ui/CenterContainer/PanelContainer/VBoxContainer/Label"):
+		$level_complete_ui/CenterContainer/PanelContainer/VBoxContainer/Label.text = text_level_complete
 	if get_node_or_null("level_complete_ui/CenterContainer/PanelContainer/VBoxContainer/MenuButton"):
-		$level_complete_ui/CenterContainer/PanelContainer/VBoxContainer/MenuButton.pressed.connect(func(): get_tree().change_scene_to_file("res://addons/maaacks_game_template/scenes/menus/main_menu/main_menu.tscn"))
+		$level_complete_ui/CenterContainer/PanelContainer/VBoxContainer/MenuButton.text = text_back_to_menu
+
+	# Animasyonların pozisyon bozmasını engelle (Editördeki pozisyonlar geçerli olsun)
+	if get_node_or_null("anim"):
+		var anim_player = $anim
+		for anim_name in anim_player.get_animation_list():
+			var anim = anim_player.get_animation(anim_name)
+			for i in range(anim.get_track_count()):
+				var track_path = str(anim.track_get_path(i))
+				# Combo veya Score objelerinin pozisyonunu değiştiren trackleri kapat
+				if track_path.begins_with("combo:position") or track_path.begins_with("score:position"):
+					anim.track_set_enabled(i, false)
+
+	# Create Particle Pool (10 nodes for overlapping effects)
+	if get_node_or_null("hit_particles"):
+		var base_p = $hit_particles
+		base_p.visible = false # Hide the original
+		
+		for i in range(10):
+			var p = base_p.duplicate()
+			p.name = "particle_pool_" + str(i)
+			p.texture = load("res://assets/particle.png")
+			p.initial_velocity_min = 300.0
+			p.initial_velocity_max = 600.0
+			p.scale_amount_min = 0.05
+			p.scale_amount_max = 0.08
+			p.gravity = Vector2(0, 400) # Konfeti için daha hafif yerçekimi
+			p.direction = Vector2(0.2, 1.0).normalized() # Ağırlık aşağı ve sağa yönde olsun (60 sağ / 40 sol)
+			p.spread = 100.0 # Geniş bir yelpaze
+			p.angular_velocity_min = -720.0 # Daha hızlı dönüş
+			p.angular_velocity_max = 720.0
+			p.damping_min = 30.0 # Daha fazla hava direnci (süzülme etkisi)
+			p.damping_max = 60.0
+			p.hue_variation_min = -1.0 # Rengarenk konfeti etkisi
+			p.hue_variation_max = 1.0
+			p.lifetime = 2.5 # Daha uzun süre ekranda kalsınlar
+			p.one_shot = true
+			p.emitting = false
+			p.visible = true
+			add_child(p)
+			particle_pool.append(p)
 
 	# Müziği 4 saniye sonra başlatacak şekilde süreci hemen başlat
 	currentSongPos = -4.0
@@ -327,6 +404,8 @@ func _process(_delta) -> void:
 	if (noteArray[0].size() > 0 and noteArray[0][0][0] <= currentSongPos):
 
 		var note : Note = noteScene.instantiate()
+		note.scale = Vector2(0.85, 0.85) # Notaları genel olarak biraz küçült (%15)
+		
 		var info : Array = noteArray[0].pop_front()
 		if (len(info) == 2):
 			note.setNote(1, speed, coordPerFrame, info[1], -1.0, clap_texture)
@@ -388,34 +467,49 @@ func autoplay():
 
 # Tuşa basıldığı an tetiklenen çekirdek fonksiyon
 func keyPressed(key_index: int) -> void:
+	# Her zaman görsel geri bildirim ver (Sırada nota olmasa bile)
+	if get_node_or_null("ui/target_circle"):
+		var tc = get_node("ui/target_circle")
+		tc.pivot_offset = tc.size / 2
+		var flash_color = Color("#F34728") if key_index == 0 else Color("#45C1E9")
+		
+		var tw = get_tree().create_tween()
+		tw.set_parallel(true)
+		tw.tween_property(tc, "scale", Vector2(1.3, 1.3), 0.05).set_trans(Tween.TRANS_SINE)
+		tw.tween_property(tc, "self_modulate", flash_color, 0.05)
+		
+		tw.chain().set_parallel(true)
+		tw.tween_property(tc, "scale", Vector2(1.0, 1.0), 0.1).set_trans(Tween.TRANS_SINE)
+		tw.tween_property(tc, "self_modulate", Color.WHITE, 0.1)
+
 	if len(queue[0]) != 0:
-		# Professional visual punch for the target circle
-		if get_node_or_null("ui/target_circle"):
-			var tc = get_node("ui/target_circle")
-			tc.pivot_offset = Vector2(30, 30)
-			var tw = get_tree().create_tween()
-			tw.tween_property(tc, "scale", Vector2(1.3, 1.3), 0.05).set_trans(Tween.TRANS_SINE)
-			tw.tween_property(tc, "scale", Vector2(1.0, 1.0), 0.1).set_trans(Tween.TRANS_SINE)
-			
 		var n = queue[0][0]
 		if is_instance_valid(n) and n.score != "Default":
 			if n.note_type != key_index:
 				n.score = "Bad" # Yanlış tuş cezası
-			
-			# Target circle color flash
-			if get_node_or_null("ui/target_circle"):
-				var tc = get_node("ui/target_circle")
-				var flash_color = Color("#F34728") if key_index == 0 else Color("#45C1E9")
-				var tw_c = get_tree().create_tween()
-				tw_c.tween_property(tc, "self_modulate", flash_color, 0.05)
-				tw_c.tween_property(tc, "self_modulate", Color.WHITE, 0.1)
 
-			if get_node_or_null("hit_particles"):
-				$hit_particles.global_position = n.global_position
+			# Sadece Perfect ve Good vuruşlarında konfeti patlat (Bad için pas geç)
+			if particle_pool.size() > 0 and n.score != "Bad":
+				var p = particle_pool[particle_index]
+				p.global_position = n.global_position
 				var p_color = Color("#F34728") if key_index == 0 else Color("#45C1E9")
-				$hit_particles.color = p_color
-				$hit_particles.restart()
-				$hit_particles.emitting = true
+				p.color = p_color
+				
+				# 3x particles for Perfect hits, smaller for Good
+				if n.score == "Perfect":
+					p.amount = 75
+					p.scale_amount_min = 0.05
+					p.scale_amount_max = 0.08
+				elif n.score == "Good":
+					p.amount = 25
+					p.scale_amount_min = 0.045
+					p.scale_amount_max = 0.07
+				
+				p.restart()
+				p.emitting = true
+				
+				# Move to next particle in pool
+				particle_index = (particle_index + 1) % particle_pool.size()
 			play_clap()
 			if n.score == "Bad":
 				resetCombo()
@@ -439,17 +533,17 @@ func updateQueue() -> void:
 	for n in queue[0]:
 		if not is_instance_valid(n): continue
 		var m = n.position.y
-		if (m < 810): 
+		if (m < 750): 
 			n.score = "Default"
-		elif (m >= 810 and m < 860):
+		elif (m >= 750 and m < 850):
 			n.score = "Bad"
-		elif (m >= 860 and m < 910):
+		elif (m >= 850 and m < 910):
 			n.score = "Good"
 		elif (m >= 910 and m < 990): # Merkez nokta (950)
 			n.score = "Perfect"
-		elif (m >= 990 and m < 1040):
+		elif (m >= 990 and m < 1050):
 			n.score = "Good"
-		elif (m >= 1040 and m < 1090):
+		elif (m >= 1050 and m < 1150):
 			n.score = "Bad"
 		else:
 			n.score = "Default"
