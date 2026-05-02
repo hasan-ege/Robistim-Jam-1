@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Song_Sample" load_steps=4 format=3 uid="uid://cqh0ec4u2dnwy"]
+
+[ext_resource type="Texture2D" uid="uid://cdai73qijjddd" path="res://Music/MusMus/MusMusLogo.jpg" id="1_tv5ff"]
+[ext_resource type="Script" path="res://Code/SongSample.gd" id="2_1q4g1"]
+[ext_resource type="AudioStream" uid="uid://bnbmb0fy5fiiy" path="res://Music/MusMus/MusMus_Flying_Bedroom.ogg" id="2_w8rtg"]
+
+[resource]
+script = ExtResource("2_1q4g1")
+SongTitle = "Flying Bedroom"
+SongArtist = "MusMus"
+Album = ExtResource("1_tv5ff")
+Sample = ExtResource("2_w8rtg")
+Url = "https://www.youtube.com/watch?v=ZLLn3FNyc5s"

@@ -11,3 +11,5 @@ func _on_visibility_changed():
 
 func _ready():
 	visibility_changed.connect(_on_visibility_changed)
+	if not visible:
+		pause_menu.hide()

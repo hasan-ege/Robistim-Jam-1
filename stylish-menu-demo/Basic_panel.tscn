@@ -1,0 +1,78 @@
+[gd_scene load_steps=7 format=3 uid="uid://btpliqwrhsi28"]
+
+[ext_resource type="Script" path="res://Code/Basic_panel.gd" id="1_hjq6a"]
+[ext_resource type="Texture2D" uid="uid://cdrw7q8epvery" path="res://MenuMockup_item.png" id="2_0p5tm"]
+[ext_resource type="FontFile" uid="uid://cobsham3xlyih" path="res://fonts/GAU_pop_magic.TTF" id="2_eoiah"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_e08wd"]
+bg_color = Color(0.858824, 0.964706, 0.847059, 1)
+border_width_left = 5
+border_width_top = 5
+border_width_right = 5
+border_width_bottom = 5
+border_color = Color(0.0509804, 0.631373, 0, 1)
+corner_radius_bottom_left = 40
+corner_detail = 2
+shadow_size = 10
+shadow_offset = Vector2(10, 5)
+
+[sub_resource type="SystemFont" id="SystemFont_iymal"]
+
+[sub_resource type="Theme" id="Theme_1rihw"]
+default_font = SubResource("SystemFont_iymal")
+Label/colors/font_color = Color(0.0509804, 0.631373, 0, 1)
+Label/colors/font_outline_color = Color(0.0117647, 0.25098, 0, 1)
+Label/constants/outline_size = 11
+Label/font_sizes/font_size = 16
+Label/fonts/font = ExtResource("2_eoiah")
+Panel/styles/panel = SubResource("StyleBoxFlat_e08wd")
+
+[node name="Panel" type="Marker2D"]
+script = ExtResource("1_hjq6a")
+metadata/_edit_vertical_guides_ = [-480.0]
+
+[node name="Offset" type="Marker2D" parent="."]
+unique_name_in_owner = true
+
+[node name="Border" type="Panel" parent="Offset"]
+offset_left = -336.0
+offset_right = 56.0
+offset_bottom = 64.0
+theme = SubResource("Theme_1rihw")
+
+[node name="Title" type="Label" parent="Offset/Border"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 16.0
+offset_top = 5.0
+offset_right = 232.0
+offset_bottom = 45.0
+theme_override_font_sizes/font_size = 18
+text = "TITLE SECTION"
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="hyphen" type="Label" parent="Offset/Border"]
+layout_mode = 0
+offset_left = 45.0
+offset_top = 42.0
+offset_right = 57.0
+offset_bottom = 59.0
+text = "-"
+
+[node name="Artist" type="Label" parent="Offset/Border"]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 64.0
+offset_top = 44.0
+offset_right = 328.0
+offset_bottom = 61.0
+theme_override_font_sizes/font_size = 10
+text = "ArtistSection"
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="MenuMockupItem" type="Sprite2D" parent="Offset"]
+visible = false
+position = Vector2(-88, 32)
+texture = ExtResource("2_0p5tm")

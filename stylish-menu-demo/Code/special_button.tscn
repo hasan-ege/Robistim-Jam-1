@@ -1,0 +1,59 @@
+[gd_scene load_steps=5 format=3 uid="uid://dy6iu85f7sork"]
+
+[ext_resource type="Script" path="res://Special_Button.gd" id="1_kr7vc"]
+[ext_resource type="Texture2D" uid="uid://clb6akyre24n" path="res://Assets/UI_experiment_pointer.png" id="2_qb7dh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_bndx1"]
+bg_color = Color(0.858824, 0.964706, 0.847059, 1)
+border_width_left = 10
+border_width_top = 10
+border_width_right = 10
+border_width_bottom = 10
+border_color = Color(0.0509804, 0.631373, 0, 1)
+corner_radius_top_left = 15
+corner_radius_top_right = 15
+corner_radius_bottom_right = 15
+corner_radius_bottom_left = 15
+
+[sub_resource type="Theme" id="Theme_x7qy6"]
+Button/styles/hover = SubResource("StyleBoxFlat_bndx1")
+Button/styles/normal = SubResource("StyleBoxFlat_bndx1")
+Button/styles/pressed = SubResource("StyleBoxFlat_bndx1")
+
+[node name="SpecialButton" type="Button"]
+offset_left = 704.0
+offset_top = 16.0
+offset_right = 792.0
+offset_bottom = 104.0
+focus_mode = 0
+theme = SubResource("Theme_x7qy6")
+script = ExtResource("1_kr7vc")
+
+[node name="Control" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 16.0
+offset_top = 16.0
+offset_right = 56.0
+offset_bottom = 56.0
+mouse_filter = 1
+
+[node name="ButtonLogo" type="TextureRect" parent="Control"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 36.0
+offset_bottom = 36.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = ExtResource("2_qb7dh")
+expand_mode = 2
+stretch_mode = 5
+
+[connection signal="pressed" from="." to="." method="_on_pressed"]

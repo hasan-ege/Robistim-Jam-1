@@ -5,6 +5,7 @@
 [ext_resource type="Script" path="res://addons/maaacks_game_template/scenes/windows/pause_menu.gd" id="3_y10kk"]
 [ext_resource type="PackedScene" path="res://addons/maaacks_game_template/scenes/windows/pause_menu_options_window.tscn" id="4_fue6i"]
 [ext_resource type="PackedScene" path="res://addons/maaacks_game_template/base/nodes/windows/confirmation_overlaid_window.tscn" id="5_wsrvi"]
+[ext_resource type="Theme" uid="uid://dq882pb3tsxpq" path="res://flash_theme.tres" id="6_theme"]
 
 [node name="PauseMenuLayer" type="CanvasLayer" unique_id=914002369]
 process_mode = 3
@@ -14,6 +15,7 @@ script = ExtResource("1_euij8")
 unique_name_in_owner = true
 process_mode = 3
 custom_minimum_size = Vector2(256, 312)
+theme = ExtResource("6_theme")
 script = ExtResource("3_y10kk")
 options_menu_scene = ExtResource("4_fue6i")
 main_menu_scene_path = ""
@@ -24,6 +26,7 @@ menu_container_node_path = NodePath("..")
 pauses_game = true
 update_content = true
 title = "Paused"
+exclusive_background_color = Color(0.0627451, 0.117647, 0.2, 0.7)
 
 [node name="TitleLabel" parent="PauseMenu/ContentContainer/BoxContainer/TitleMargin/BoxContainer" parent_id_path=PackedInt32Array(6629802, 1788474031) index="0" unique_id=1049966061]
 text = "Paused"
@@ -71,21 +74,27 @@ text = "Exit Game"
 [node name="RestartConfirmation" parent="." unique_id=1453441706 instance=ExtResource("5_wsrvi")]
 unique_name_in_owner = true
 visible = false
+theme = ExtResource("6_theme")
 text = "Restart the game?"
 title = "Confirm Restart"
+exclusive_background_color = Color(0.0627451, 0.117647, 0.2, 0.7)
 
 [node name="MainMenuConfirmation" parent="." unique_id=1848000740 instance=ExtResource("5_wsrvi")]
 unique_name_in_owner = true
 visible = false
 custom_minimum_size = Vector2(220, 0)
+theme = ExtResource("6_theme")
 text = "Exit to the main menu?"
 title = "Confirm Exit"
+exclusive_background_color = Color(0.0627451, 0.117647, 0.2, 0.7)
 
 [node name="ExitConfirmation" parent="." unique_id=1161491301 instance=ExtResource("5_wsrvi")]
 unique_name_in_owner = true
 visible = false
+theme = ExtResource("6_theme")
 text = "Exit the game?"
 title = "Confirm Exit"
+exclusive_background_color = Color(0.0627451, 0.117647, 0.2, 0.7)
 
 [connection signal="hidden" from="PauseMenu" to="." method="_on_pause_menu_hidden"]
 [connection signal="pressed" from="PauseMenu/ContentContainer/BoxContainer/MenuButtonsMargin/MenuButtons/RestartButton" to="PauseMenu" method="_on_restart_button_pressed"]

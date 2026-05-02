@@ -2,8 +2,8 @@ extends Node2D
 
 # Ekranda vurulması gereken mükemmel Y koordinatı
 const PERFECT_YPOS : float = 950
-# Dişli (Gear) arayüzünün Y eksenindeki bitiş noktası
-const GEAR_END : float = 1300
+# Dişli (Gear) arayüzünün Y eksenindeki bitiş noktası (Miss olduğu an)
+const GEAR_END : float = 1150.0
 # Son nota bittikten sonra oyunun sonlanması için beklenecek ekstra süre
 const ENDPOS_BIAS : float = +2.0
 # Kılavuz çizgilerinin (Subline) arası boşluk (saniye)
@@ -74,10 +74,16 @@ var done           : bool    = false
 var combo          : int     = 0
 # Ulaşılan maksimum kombo
 var comboMax       : int     = 0
-# Mevcut puan
+# Mevcut puan (yüzde hesaplaması için)
 var currentScore   : float   = 0.0
-# Ulaşılabilecek maksimum toplam puan
+# Toplam sayısal puan
+var totalScore     : int     = 0
+# Ulaşılabilecek maksimum toplam puan (yüzde için)
 var maximumScore   : float   = 0.0
+# Toplam işlenen nota sayısı (Accuracy için)
+var notesCounted   : int     = 0
+# Mevcut doğruluk oranı (0-100)
+var accuracy       : float   = 100.0
 
 # Kaydedilen notaları tutan dizi
 var recorded_notes : Array = []
@@ -149,14 +155,24 @@ func getMaximumScore(notearr : Array) -> float:
 
 # Komboyu ve skoru artırır, animasyonu tetikler
 func addCombo(score_type : String) -> void:
+	play_random_rapper_anim()
 	combo += 1
 	if combo > comboMax:
 		comboMax = combo
 	if (score_type == "Perfect"):
 		currentScore += 1.0
+		totalScore += 100
 	elif (score_type == "Good"):
-		currentScore += 0.7
+		currentScore += 0.5
+		totalScore += 50
+	
 	$combo.text = str(combo)
+	if get_node_or_null("total_score"):
+		$total_score.text = str(totalScore)
+	
+	notesCounted += 1
+	accuracy = (currentScore / notesCounted) * 100.0
+	# print("Accuracy: %.2f%%" % accuracy) # Debug için
 	
 	# Combo pop animation (relative scale)
 	var combo_tween = get_tree().create_tween()
@@ -170,6 +186,7 @@ func addCombo(score_type : String) -> void:
 			"Perfect": $score.text = text_perfect
 			"Good": $score.text = text_good
 			"Bad": $score.text = text_bad
+			"Miss": $score.text = text_miss
 
 	$anim.play(score_type)
 	
@@ -182,12 +199,29 @@ func addCombo(score_type : String) -> void:
 	await $anim.animation_finished
 
 # Hatalı vuruşta komboyu sıfırlar
-func resetCombo() -> void:
+func resetCombo(score_type : String = "Miss") -> void:
+	play_random_rapper_anim()
 	combo = 0
 	$combo.text = str(combo)
 	if get_node_or_null("score"):
-		$score.text = text_miss
-	$anim.play("Bad")
+		match score_type:
+			"Bad": $score.text = text_bad
+			_: $score.text = text_miss
+	
+	if score_type == "Bad":
+		currentScore += 0.1
+		$anim.play("Bad")
+	else:
+		if score_type == "Miss":
+			totalScore = max(0, totalScore - 11)
+			if get_node_or_null("total_score"):
+				$total_score.text = str(totalScore)
+		$anim.play("Miss")
+	
+	notesCounted += 1
+	accuracy = (currentScore / notesCounted) * 100.0
+	# print("Accuracy: %.2f%%" % accuracy) # Debug için
+		
 	await $anim.animation_finished
 	$anim.play("combo")
 	await $anim.animation_finished
@@ -305,7 +339,28 @@ func _ready() -> void:
 	if get_node_or_null("level_complete_ui/CenterContainer/PanelContainer/VBoxContainer/Label"):
 		$level_complete_ui/CenterContainer/PanelContainer/VBoxContainer/Label.text = text_level_complete
 	if get_node_or_null("level_complete_ui/CenterContainer/PanelContainer/VBoxContainer/MenuButton"):
-		$level_complete_ui/CenterContainer/PanelContainer/VBoxContainer/MenuButton.text = text_back_to_menu
+		var menu_btn = $level_complete_ui/CenterContainer/PanelContainer/VBoxContainer/MenuButton
+		menu_btn.text = text_back_to_menu
+		if not menu_btn.pressed.is_connected(_on_menu_button_pressed):
+			menu_btn.pressed.connect(_on_menu_button_pressed)
+
+	var left_crowd = get_node_or_null("LeftCrowd")
+	if left_crowd and left_crowd is AnimatedSprite2D:
+		left_crowd.play("Idle")
+		if not left_crowd.animation_finished.is_connected(_on_left_crowd_anim_finished):
+			left_crowd.animation_finished.connect(_on_left_crowd_anim_finished)
+
+	var right_crowd = get_node_or_null("RightCrowd")
+	if right_crowd and right_crowd is AnimatedSprite2D:
+		right_crowd.play("Idle")
+		if not right_crowd.animation_finished.is_connected(_on_right_crowd_anim_finished):
+			right_crowd.animation_finished.connect(_on_right_crowd_anim_finished)
+
+	# Rappers (Spoon & Bear) Idle
+	var bear = get_node_or_null("ui/Bear")
+	if bear: bear.play("idle")
+	var spoon = get_node_or_null("ui/Spoon")
+	if spoon: spoon.play("idle")
 
 	# Animasyonların pozisyon bozmasını engelle (Editördeki pozisyonlar geçerli olsun)
 	if get_node_or_null("anim"):
@@ -351,6 +406,22 @@ func _ready() -> void:
 	currentSongPos = -4.0
 	print("Game initialized, starting countdown...")
 	set_process(true)
+
+func _on_menu_button_pressed() -> void:
+	if "main_menu_scene_path" in AppConfig and AppConfig.main_menu_scene_path != "":
+		SceneLoader.load_scene(AppConfig.main_menu_scene_path)
+	else:
+		SceneLoader.load_scene("res://ui/menus/main_menu/animated_main_menu.tscn")
+
+func _on_left_crowd_anim_finished() -> void:
+	var left_crowd = get_node_or_null("LeftCrowd")
+	if left_crowd and left_crowd.animation == "Pressed":
+		left_crowd.play("Idle")
+
+func _on_right_crowd_anim_finished() -> void:
+	var right_crowd = get_node_or_null("RightCrowd")
+	if right_crowd and right_crowd.animation == "Pressed":
+		right_crowd.play("Idle")
 
 
 func _process(_delta) -> void:
@@ -475,44 +546,61 @@ func keyPressed(key_index: int) -> void:
 		
 		var tw = get_tree().create_tween()
 		tw.set_parallel(true)
-		tw.tween_property(tc, "scale", Vector2(1.3, 1.3), 0.05).set_trans(Tween.TRANS_SINE)
+		tw.tween_property(tc, "scale", Vector2(0.85, 0.85), 0.05).set_trans(Tween.TRANS_SINE)
 		tw.tween_property(tc, "self_modulate", flash_color, 0.05)
 		
 		tw.chain().set_parallel(true)
 		tw.tween_property(tc, "scale", Vector2(1.0, 1.0), 0.1).set_trans(Tween.TRANS_SINE)
 		tw.tween_property(tc, "self_modulate", Color.WHITE, 0.1)
 
+
 	if len(queue[0]) != 0:
 		var n = queue[0][0]
 		if is_instance_valid(n) and n.score != "Default":
 			if n.note_type != key_index:
-				n.score = "Bad" # Yanlış tuş cezası
+				n.score = "Miss" # Yanlış tuş cezası
 
-			# Sadece Perfect ve Good vuruşlarında konfeti patlat (Bad için pas geç)
-			if particle_pool.size() > 0 and n.score != "Bad":
-				var p = particle_pool[particle_index]
-				p.global_position = n.global_position
-				var p_color = Color("#F34728") if key_index == 0 else Color("#45C1E9")
-				p.color = p_color
+			# Hit-only feedback (Particles, Crowd, Sound)
+			if n.score == "Perfect" or n.score == "Good":
+				# Particles
+				if particle_pool.size() > 0:
+					var p = particle_pool[particle_index]
+					p.global_position = n.global_position
+					var p_color = Color("#F34728") if key_index == 0 else Color("#45C1E9")
+					p.color = p_color
+					
+					if n.score == "Perfect":
+						p.amount = 75
+						p.scale_amount_min = 0.05
+						p.scale_amount_max = 0.08
+					elif n.score == "Good":
+						p.amount = 25
+						p.scale_amount_min = 0.045
+						p.scale_amount_max = 0.07
+					
+					p.restart()
+					p.emitting = true
+					particle_index = (particle_index + 1) % particle_pool.size()
+			
+			# Crowd and Sound feedback (Everything except Miss)
+			if n.score != "Miss":
+				# Crowd animations
+				if key_index == 0:
+					var left_crowd = get_node_or_null("LeftCrowd")
+					if left_crowd and left_crowd is AnimatedSprite2D:
+						left_crowd.stop()
+						left_crowd.play("Pressed")
+				elif key_index == 1:
+					var right_crowd = get_node_or_null("RightCrowd")
+					if right_crowd and right_crowd is AnimatedSprite2D:
+						right_crowd.stop()
+						right_crowd.play("Pressed")
 				
-				# 3x particles for Perfect hits, smaller for Good
-				if n.score == "Perfect":
-					p.amount = 75
-					p.scale_amount_min = 0.05
-					p.scale_amount_max = 0.08
-				elif n.score == "Good":
-					p.amount = 25
-					p.scale_amount_min = 0.045
-					p.scale_amount_max = 0.07
-				
-				p.restart()
-				p.emitting = true
-				
-				# Move to next particle in pool
-				particle_index = (particle_index + 1) % particle_pool.size()
-			play_clap()
-			if n.score == "Bad":
-				resetCombo()
+				# Sound
+				play_clap()
+
+			if n.score == "Bad" or n.score == "Miss":
+				resetCombo(n.score)
 				if n.isLongnote == false:
 					n.queue_free()
 				else:
@@ -599,12 +687,13 @@ func dequeue() -> void:
 				if (not shouldPress[0]):
 					n.longnoteFailed()
 					queue[0].pop_front()
-					resetCombo()
+					resetCombo("Miss")
 				else:
 					break # Halen basılı tutuluyor, silme
 			else:
+				n.score = "Miss"
+				resetCombo("Miss")
 				queue[0].pop_front()
-				resetCombo()
 		else:
 			break
 
@@ -640,5 +729,30 @@ func killGarbage() -> void:
 	for n in $container1.get_children():
 		if is_instance_valid(n):
 			var size_offset = n.effect.size.y if n.isLongnote else 0
-			if (n.position.y - size_offset >= 1100):
+			if (n.position.y - size_offset >= 1300):
 				n.queue_free()
+
+func play_random_rapper_anim():
+	# Randomized tiny delay as requested
+	await get_tree().create_timer(randf_range(0.02, 0.1)).timeout
+	
+	var bear = get_node_or_null("ui/Bear")
+	var spoon = get_node_or_null("ui/Spoon")
+	var rappers = []
+	if bear: rappers.append(bear)
+	if spoon: rappers.append(spoon)
+	
+	if rappers.size() == 0: return
+	
+	var rapper = rappers.pick_random()
+	var anims = ["up", "left", "right"]
+	var anim = anims.pick_random()
+	
+	rapper.play(anim)
+	
+	# Longer duration as requested
+	var duration = randf_range(0.5, 0.9)
+	await get_tree().create_timer(duration).timeout
+	
+	if is_instance_valid(rapper) and rapper.animation == anim:
+		rapper.play("idle")

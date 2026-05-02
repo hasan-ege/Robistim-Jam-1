@@ -1,0 +1,34 @@
+[gd_scene load_steps=4 format=3 uid="uid://b8rrhxb0xcm7l"]
+
+[ext_resource type="Texture2D" uid="uid://cdrw7q8epvery" path="res://MenuMockup_item.png" id="1_440hg"]
+[ext_resource type="Script" path="res://CyclingMenu.gd" id="1_d7u1i"]
+[ext_resource type="PackedScene" uid="uid://btpliqwrhsi28" path="res://Basic_panel.tscn" id="2_gmfap"]
+
+[node name="Node2D" type="Node2D"]
+
+[node name="CyclingMenu" type="Marker2D" parent="."]
+position = Vector2(800, 128)
+gizmo_extents = 73.1
+script = ExtResource("1_d7u1i")
+panel_scene = ExtResource("2_gmfap")
+
+[node name="menu_pool" type="Node2D" parent="CyclingMenu"]
+unique_name_in_owner = true
+
+[node name="Panel" parent="CyclingMenu/menu_pool" instance=ExtResource("2_gmfap")]
+
+[node name="Hiddenposition" type="Marker2D" parent="CyclingMenu"]
+unique_name_in_owner = true
+position = Vector2(528, 160)
+
+[node name="SeperationValue" type="Marker2D" parent="CyclingMenu"]
+unique_name_in_owner = true
+position = Vector2(0, 80)
+
+[node name="HeightValue" type="Marker2D" parent="CyclingMenu"]
+unique_name_in_owner = true
+position = Vector2(-32, 0)
+
+[node name="MenuMockupItem" type="Sprite2D" parent="."]
+position = Vector2(784, -80)
+texture = ExtResource("1_440hg")

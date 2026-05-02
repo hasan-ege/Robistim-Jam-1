@@ -1,0 +1,191 @@
+[gd_scene format=3 uid="uid://c5k5nnpbypshi"]
+
+[ext_resource type="Script" uid="uid://cvdsolru8a134" path="res://ui/menus/level_select/animated_level_select.gd" id="1_script"]
+[ext_resource type="Shader" uid="uid://delvvvb6vuxfm" path="res://ui/transition shaders/Background.gdshader" id="2_shader"]
+[ext_resource type="Texture2D" uid="uid://ddsva1l1l2iad" path="res://green.PNG" id="3_bg_tex"]
+[ext_resource type="FontFile" uid="uid://55ug4oogc156" path="res://ui/text/FunkySmile-Regular.otf" id="4_font"]
+[ext_resource type="Shader" uid="uid://njn0yqj32uxu" path="res://ui/transition shaders/Loop.gdshader" id="5_m67to"]
+[ext_resource type="Texture2D" uid="uid://cq8dauvn4pm7u" path="res://PRESSSPACE.png" id="6_swttf"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_select"]
+shader = ExtResource("2_shader")
+shader_parameter/basecolor = Color(0.0627451, 0.117647, 0.2, 1)
+shader_parameter/animate_speed = 0.001
+shader_parameter/resolution = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button"]
+bg_color = Color(0.2, 0.2, 0.2, 0.6)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(1, 1, 1, 0.8)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_hover"]
+bg_color = Color(0.4, 0.4, 0.4, 0.8)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 4
+border_color = Color(1, 1, 1, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dth37"]
+shader = ExtResource("5_m67to")
+shader_parameter/speed = 0.5
+shader_parameter/transparency = 1.0
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_swttf"]
+
+[node name="AnimatedLevelSelect" type="Control" unique_id=516305202]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_script")
+
+[node name="Background" type="Sprite2D" parent="." unique_id=966808942]
+material = SubResource("ShaderMaterial_select")
+position = Vector2(576, 324)
+scale = Vector2(9, 6.5)
+texture = ExtResource("3_bg_tex")
+
+[node name="Title" type="Label" parent="." unique_id=1285328052]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -250.0
+offset_top = 40.0
+offset_right = 250.0
+offset_bottom = 120.0
+grow_horizontal = 2
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 12
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 64
+text = "FREEPLAY"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CardsContainer" type="Control" parent="." unique_id=1834865529]
+unique_name_in_owner = true
+layout_mode = 1
+anchor_left = 0.5
+anchor_top = 0.45
+anchor_right = 0.5
+anchor_bottom = 0.45
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Controls" type="HBoxContainer" parent="." unique_id=2094755877]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.45
+anchor_right = 0.5
+anchor_bottom = 0.45
+offset_left = -547.735
+offset_top = -50.0
+offset_right = 612.265
+offset_bottom = 50.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.95, 1)
+mouse_filter = 2
+theme_override_constants/separation = 1000
+alignment = 1
+
+[node name="LeftButton" type="Button" parent="Controls" unique_id=1981548724]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 48
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hover")
+text = "<"
+
+[node name="RightButton" type="Button" parent="Controls" unique_id=1678274273]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(80, 80)
+layout_mode = 2
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 48
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hover")
+text = ">"
+
+[node name="LevelInfo" type="VBoxContainer" parent="." unique_id=1057458643]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_top = -180.0
+offset_right = 300.0
+offset_bottom = -20.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="BackButton" type="Button" parent="." unique_id=1379434415]
+layout_mode = 0
+offset_left = 30.0
+offset_top = 30.0
+offset_right = 160.0
+offset_bottom = 80.0
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 24
+theme_override_styles/normal = SubResource("StyleBoxFlat_button")
+theme_override_styles/hover = SubResource("StyleBoxFlat_hover")
+text = "BACK"
+
+[node name="LevelNameLabel" type="Label" parent="." unique_id=246326533]
+unique_name_in_owner = true
+layout_mode = 0
+offset_left = 276.0
+offset_top = 526.0
+offset_right = 876.0
+offset_bottom = 575.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 8
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 48
+text = "Level Name"
+horizontal_alignment = 1
+
+[node name="Pressspace" type="Sprite2D" parent="." unique_id=396681884]
+material = SubResource("ShaderMaterial_dth37")
+position = Vector2(576, 627)
+scale = Vector2(0.40410957, 0.4041096)
+texture = ExtResource("6_swttf")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=176744784]
+
+[node name="Instructions" type="Label" parent="Sprite2D" unique_id=632468513]
+material = SubResource("ShaderMaterial_swttf")
+offset_left = 276.0
+offset_top = 589.0
+offset_right = 876.0
+offset_bottom = 614.0
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 4
+theme_override_fonts/font = ExtResource("4_font")
+theme_override_font_sizes/font_size = 24
+text = "PRESS SPACE TO JAM"
+horizontal_alignment = 1
+
+[connection signal="pressed" from="BackButton" to="." method="_on_back_button_pressed"]

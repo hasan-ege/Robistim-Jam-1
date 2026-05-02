@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Song_Sample" load_steps=4 format=3 uid="uid://bvxodjol6r4rf"]
+
+[ext_resource type="Texture2D" uid="uid://bq0y6x0q52c0b" path="res://Music/Cole_Dingo_Hard/GmuBWRrX.jpg" id="1_2j62a"]
+[ext_resource type="Script" path="res://Code/SongSample.gd" id="2_dvjvw"]
+[ext_resource type="AudioStream" uid="uid://bmteta4vqvr8r" path="res://Music/Cole_Dingo_Hard/ColeDingo_Hard_Sample.ogg" id="2_lmqe7"]
+
+[resource]
+script = ExtResource("2_dvjvw")
+SongTitle = "Cole_Dingo-Hard"
+SongArtist = "SystemST91"
+Album = ExtResource("1_2j62a")
+Sample = ExtResource("2_lmqe7")
+Url = "https://www.youtube.com/watch?v=Me-CGdd6Q-0"

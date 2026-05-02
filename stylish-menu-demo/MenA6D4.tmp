@@ -1,0 +1,170 @@
+[gd_scene load_steps=20 format=3 uid="uid://b8rrhxb0xcm7l"]
+
+[ext_resource type="Shader" path="res://Background.gdshader" id="1_050gr"]
+[ext_resource type="Script" path="res://Code/CyclingMenu.gd" id="1_d7u1i"]
+[ext_resource type="Shader" path="res://CRT.gdshader" id="1_w4rk5"]
+[ext_resource type="Texture2D" uid="uid://de8kxq6jca8dt" path="res://green.PNG" id="2_acqdy"]
+[ext_resource type="Script" path="res://Code/MusicManager.gd" id="2_dp34r"]
+[ext_resource type="PackedScene" uid="uid://dfyeamw4sg2af" path="res://addons/show_spectrum.tscn" id="2_exsua"]
+[ext_resource type="PackedScene" uid="uid://btpliqwrhsi28" path="res://Basic_panel.tscn" id="2_gmfap"]
+[ext_resource type="Resource" uid="uid://bdhgm61qtljke" path="res://Music/Cole_Dingo_Normal/Cole_Dingo-Normal.tres" id="7_c76ax"]
+[ext_resource type="Script" path="res://AlbumDisplay.gd" id="7_rrtb5"]
+[ext_resource type="Resource" uid="uid://bvxodjol6r4rf" path="res://Music/Cole_Dingo_Hard/Cole_Dingo-Hard.tres" id="8_almo6"]
+[ext_resource type="Texture2D" uid="uid://bs0xj2voohjqu" path="res://Placeholder/Standing_Head.png" id="8_t0yvh"]
+[ext_resource type="Resource" uid="uid://cqh0ec4u2dnwy" path="res://Music/MusMus/Flying_Bedroom.tres" id="9_pxcij"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_enb2u"]
+shader = ExtResource("1_050gr")
+shader_parameter/basecolor = Color(0, 0.462745, 0.141176, 1)
+shader_parameter/animate_speed = 0.06
+shader_parameter/resolution = 1.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0gqmq"]
+bg_color = Color(0.843137, 0.921569, 0.835294, 1)
+border_width_top = 23
+border_width_bottom = 8
+border_color = Color(0.0509804, 0.631373, 0, 1)
+
+[sub_resource type="Theme" id="Theme_bmxtx"]
+Label/colors/font_color = Color(0.0509804, 0.631373, 0, 1)
+Panel/styles/panel = SubResource("StyleBoxFlat_0gqmq")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ioxb5"]
+bg_color = Color(0.0509804, 0.631373, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tkron"]
+bg_color = Color(0.0509804, 0.631373, 0, 1)
+border_width_left = 15
+border_width_top = 15
+border_width_right = 15
+border_width_bottom = 15
+border_color = Color(0.0509804, 0.631373, 0, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 2
+expand_margin_left = 4.0
+shadow_size = 5
+shadow_offset = Vector2(5, 5)
+
+[sub_resource type="Theme" id="Theme_vmdkr"]
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_tkron")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ta1cp"]
+shader = ExtResource("1_w4rk5")
+shader_parameter/fisheye_strength = 1.0
+
+[node name="Node2D" type="Node2D"]
+
+[node name="MusicManager" type="Node" parent="."]
+script = ExtResource("2_dp34r")
+
+[node name="ShowSpectrum" parent="MusicManager" instance=ExtResource("2_exsua")]
+position = Vector2(296, 512)
+
+[node name="SampleAudio" type="AudioStreamPlayer" parent="MusicManager"]
+unique_name_in_owner = true
+autoplay = true
+
+[node name="Green" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_enb2u")
+position = Vector2(399.25, 300)
+scale = Vector2(6.11832, 5.76923)
+texture = ExtResource("2_acqdy")
+
+[node name="CyclingMenu" type="Marker2D" parent="."]
+position = Vector2(800, 64)
+gizmo_extents = 73.1
+script = ExtResource("1_d7u1i")
+starting_panel = 1
+panels = 7
+panel_scene = ExtResource("2_gmfap")
+content_array = Array[Resource("res://Code/SongSample.gd")]([ExtResource("7_c76ax"), ExtResource("8_almo6"), ExtResource("9_pxcij")])
+
+[node name="menu_pool" type="Node2D" parent="CyclingMenu"]
+unique_name_in_owner = true
+
+[node name="Panel" parent="CyclingMenu/menu_pool" instance=ExtResource("2_gmfap")]
+
+[node name="Hiddenposition" type="Marker2D" parent="CyclingMenu"]
+unique_name_in_owner = true
+position = Vector2(248, 256)
+
+[node name="SeperationValue" type="Marker2D" parent="CyclingMenu"]
+unique_name_in_owner = true
+position = Vector2(0, 72)
+
+[node name="HeightValue" type="Marker2D" parent="CyclingMenu"]
+unique_name_in_owner = true
+position = Vector2(-32, 0)
+
+[node name="Overlay" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = SubResource("Theme_bmxtx")
+
+[node name="Panel2" type="Panel" parent="Overlay"]
+layout_mode = 0
+offset_left = 784.0
+offset_top = 48.0
+offset_right = 800.0
+offset_bottom = 608.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ioxb5")
+
+[node name="Panel3" type="Panel" parent="Overlay"]
+layout_mode = 0
+offset_left = 800.0
+offset_top = 624.0
+offset_right = 1616.0
+offset_bottom = 672.0
+rotation = -3.14159
+
+[node name="Panel" type="Panel" parent="Overlay"]
+layout_mode = 0
+offset_left = -8.0
+offset_right = 808.0
+offset_bottom = 48.0
+
+[node name="AlbumDisplay" type="PanelContainer" parent="."]
+offset_left = 32.0
+offset_top = 72.0
+offset_right = 448.0
+offset_bottom = 536.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = SubResource("Theme_vmdkr")
+script = ExtResource("7_rrtb5")
+
+[node name="AlbumText" type="TextureRect" parent="AlbumDisplay"]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("8_t0yvh")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="HiddenImage" type="TextureRect" parent="AlbumDisplay/AlbumText"]
+unique_name_in_owner = true
+layout_mode = 2
+offset_right = 386.0
+offset_bottom = 434.0
+texture = ExtResource("8_t0yvh")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="TextureRect" type="TextureRect" parent="."]
+material = SubResource("ShaderMaterial_ta1cp")
+offset_right = 800.0
+offset_bottom = 600.0
+texture = ExtResource("2_acqdy")
+
+[connection signal="option_changed" from="CyclingMenu" to="MusicManager" method="_on_cycling_menu_option_changed"]
+[connection signal="option_changed" from="CyclingMenu" to="AlbumDisplay" method="_on_cycling_menu_option_changed"]
+[connection signal="selected_option" from="CyclingMenu" to="CyclingMenu" method="_on_selected_option"]
+[connection signal="start" from="CyclingMenu" to="MusicManager" method="_on_cycling_menu_start"]
+[connection signal="start" from="CyclingMenu" to="AlbumDisplay" method="_on_cycling_menu_start"]

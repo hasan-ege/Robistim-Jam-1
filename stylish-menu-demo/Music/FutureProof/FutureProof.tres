@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Song_Sample" load_steps=4 format=3 uid="uid://cy4t1mo4qj0kn"]
+
+[ext_resource type="Texture2D" uid="uid://c08c1gpewgr7k" path="res://Music/FutureProof/a1365006916_10.jpg" id="1_wxqdb"]
+[ext_resource type="AudioStream" uid="uid://d36trdc31rbs7" path="res://Music/FutureProof/Cody Vondell_01 Futureproof.ogg" id="2_7ninl"]
+[ext_resource type="Script" path="res://Code/SongSample.gd" id="3_1wjfr"]
+
+[resource]
+script = ExtResource("3_1wjfr")
+SongTitle = "FutureProof"
+SongArtist = "CodyVondell"
+Album = ExtResource("1_wxqdb")
+Sample = ExtResource("2_7ninl")
+Url = "https://codyvondell.com/"

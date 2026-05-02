@@ -1,7 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://bhl1tw7dyybxh"]
+[gd_scene format=3 uid="uid://bhl1tw7dyybxh"]
 
-[ext_resource type="Script" path="res://note.gd" id="1_dk57e"]
-[ext_resource type="Texture2D" path="res://assets/clap_icon.png" id="2_icon"]
+[ext_resource type="Script" uid="uid://bjo7nln4f58j" path="res://note.gd" id="1_dk57e"]
+[ext_resource type="Texture2D" uid="uid://ium5g5rrnyh7" path="res://assets/clap_icon.png" id="2_icon"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_capsule"]
 bg_color = Color(0.537255, 0.537255, 0.537255, 1)
@@ -40,16 +40,15 @@ shadow_color = Color(0, 0, 0, 0.2)
 shadow_size = 6
 shadow_offset = Vector2(0, 4)
 
-
-[node name="note" type="Node2D"]
+[node name="note" type="Node2D" unique_id=2101287364]
 script = ExtResource("1_dk57e")
 
-[node name="LN_Effect" type="Panel" parent="."]
+[node name="LN_Effect" type="Panel" parent="." unique_id=2052938376]
 offset_left = -50.0
 offset_right = 50.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_capsule")
 
-[node name="LN_EffectEnd" type="Panel" parent="."]
+[node name="LN_EffectEnd" type="Panel" parent="." unique_id=1546671907]
 visible = false
 offset_left = -50.0
 offset_top = -50.0
@@ -57,14 +56,14 @@ offset_right = 50.0
 offset_bottom = 50.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_circle_end")
 
-[node name="bar" type="Panel" parent="."]
+[node name="bar" type="Panel" parent="." unique_id=1394065377]
 offset_left = -50.0
 offset_top = -50.0
 offset_right = 50.0
 offset_bottom = 50.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_circle")
 
-[node name="icon" type="TextureRect" parent="bar"]
+[node name="icon" type="TextureRect" parent="bar" unique_id=1823076094]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0

@@ -1,0 +1,268 @@
+[gd_scene format=3 uid="uid://b8rrhxb0xcm7l"]
+
+[ext_resource type="Script" uid="uid://c3jdnx26ull3n" path="res://Code/CyclingMenu.gd" id="1_d7u1i"]
+[ext_resource type="Shader" uid="uid://c5ju02dstslfu" path="res://mandkebrot.gdshader" id="2_56jqo"]
+[ext_resource type="Texture2D" uid="uid://de8kxq6jca8dt" path="res://green.PNG" id="2_acqdy"]
+[ext_resource type="Script" uid="uid://bev0jros18hsj" path="res://Code/MusicManager.gd" id="2_dp34r"]
+[ext_resource type="PackedScene" uid="uid://dfyeamw4sg2af" path="res://addons/show_spectrum.tscn" id="2_exsua"]
+[ext_resource type="PackedScene" uid="uid://btpliqwrhsi28" path="res://Basic_panel.tscn" id="2_gmfap"]
+[ext_resource type="Script" uid="uid://dfk3a3xsx1m13" path="res://Code/SongSample.gd" id="6_56jqo"]
+[ext_resource type="Resource" uid="uid://bdhgm61qtljke" path="res://Music/Cole_Dingo_Normal/Cole_Dingo-Normal.tres" id="7_c76ax"]
+[ext_resource type="Script" uid="uid://dpc0api47wxkk" path="res://AlbumDisplay.gd" id="7_rrtb5"]
+[ext_resource type="Resource" uid="uid://bvxodjol6r4rf" path="res://Music/Cole_Dingo_Hard/Cole_Dingo-Hard.tres" id="8_almo6"]
+[ext_resource type="Texture2D" uid="uid://bs0xj2voohjqu" path="res://Placeholder/Standing_Head.png" id="8_t0yvh"]
+[ext_resource type="Resource" uid="uid://dyc7tbnx86qas" path="res://Music/ButtahDog/ButtahDog.tres" id="9_edkv4"]
+[ext_resource type="Resource" uid="uid://cqh0ec4u2dnwy" path="res://Music/MusMus/Flying_Bedroom.tres" id="9_pxcij"]
+[ext_resource type="Resource" uid="uid://cy4t1mo4qj0kn" path="res://Music/FutureProof/FutureProof.tres" id="10_dtxf7"]
+[ext_resource type="AudioStream" uid="uid://ca7w0rrn1nuvr" path="res://sound_effects/RecordScratch.ogg" id="10_f1dxl"]
+[ext_resource type="Resource" uid="uid://2xjau6ratnh7" path="res://Music/Side_Effect_Included/Side_Effects_Included.tres" id="11_5ptqa"]
+[ext_resource type="AudioStream" uid="uid://byn6y1p71krj1" path="res://sound_effects/bloop-3-186532.ogg" id="11_i721k"]
+[ext_resource type="Texture2D" uid="uid://cmi7ka2641o62" path="res://sprites/Enter.png" id="12_0pot4"]
+[ext_resource type="Resource" uid="uid://lbmq3j7jihit" path="res://Music/Paradox/Paradox.tres" id="12_bhipn"]
+[ext_resource type="Resource" uid="uid://ckbrofrs8p8il" path="res://Music/DeepSeaVibes/CostalWaves.tres" id="13_oigcv"]
+[ext_resource type="Script" uid="uid://cuhxpkrd25mne" path="res://Url_Opener.gd" id="15_5r8ca"]
+[ext_resource type="Texture2D" uid="uid://bdepyyo6vdvn8" path="res://Assets/CubesUp.png" id="15_vto0u"]
+[ext_resource type="Texture2D" uid="uid://d156l3q8px08m" path="res://Assets/CubesDown.png" id="16_6nqgm"]
+[ext_resource type="PackedScene" uid="uid://dy6iu85f7sork" path="res://Code/special_button.tscn" id="21_456qa"]
+[ext_resource type="PackedScene" uid="uid://dmf0ywgfdge2c" path="res://Code/special_button_Small.tscn" id="21_fvnmf"]
+[ext_resource type="Shader" uid="uid://dhf1tjxdwxeb3" path="res://Loop.gdshader" id="23_comi2"]
+[ext_resource type="Texture2D" uid="uid://coyt2tfwryd56" path="res://Assets/SelectSong.png" id="24_3akct"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_enb2u"]
+shader = ExtResource("2_56jqo")
+shader_parameter/color_fondo = Color(0.15, 0.25, 0.35, 1)
+shader_parameter/color_linea = Color(1, 1, 1, 0.15)
+shader_parameter/color_picos = Color(0, 0, 0, 1)
+shader_parameter/tamano_cuadros = 0.05
+shader_parameter/grosor_linea = 0.005
+shader_parameter/velocidad_fondo = Vector2(0.1, 0.05)
+shader_parameter/rotacion_cuadricula = 0.0
+shader_parameter/cantidad_picos = 12.0
+shader_parameter/vel_picos_arriba = 1.5
+shader_parameter/vel_picos_abajo = -1.5
+shader_parameter/inclinacion_punta = 0.5
+shader_parameter/intensidad_picos = 0.4
+shader_parameter/cierre_picos = 0.0
+shader_parameter/rotacion_picos = 0.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_0gqmq"]
+bg_color = Color(0.843137, 0.921569, 0.835294, 1)
+border_width_top = 23
+border_width_bottom = 8
+border_color = Color(0.0509804, 0.631373, 0, 1)
+
+[sub_resource type="Theme" id="Theme_bmxtx"]
+Label/colors/font_color = Color(0.0509804, 0.631373, 0, 1)
+Panel/styles/panel = SubResource("StyleBoxFlat_0gqmq")
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ioxb5"]
+bg_color = Color(0.0509804, 0.631373, 0, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_tkron"]
+bg_color = Color(0.0509804, 0.631373, 0, 1)
+border_width_left = 15
+border_width_top = 15
+border_width_right = 15
+border_width_bottom = 15
+border_color = Color(0.0509804, 0.631373, 0, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+corner_detail = 2
+expand_margin_left = 4.0
+shadow_size = 5
+shadow_offset = Vector2(5, 5)
+
+[sub_resource type="Theme" id="Theme_vmdkr"]
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_tkron")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_sb8sr"]
+shader = ExtResource("23_comi2")
+shader_parameter/speed = 0.5
+shader_parameter/transparency = 1.0
+
+[node name="Node2D" type="Node2D" unique_id=1490432289]
+
+[node name="MusicManager" type="Node" parent="." unique_id=988867723]
+script = ExtResource("2_dp34r")
+
+[node name="SampleAudio" type="AudioStreamPlayer" parent="MusicManager" unique_id=199536488]
+unique_name_in_owner = true
+autoplay = true
+
+[node name="Green" type="Sprite2D" parent="." unique_id=1164929689]
+material = SubResource("ShaderMaterial_enb2u")
+position = Vector2(399.25, 300)
+scale = Vector2(6.11832, 5.76923)
+texture = ExtResource("2_acqdy")
+
+[node name="CyclingMenu" type="Marker2D" parent="." unique_id=461170410]
+position = Vector2(800, 64)
+gizmo_extents = 73.1
+script = ExtResource("1_d7u1i")
+starting_panel = 3
+panels = 7
+panel_scene = ExtResource("2_gmfap")
+content_array = Array[ExtResource("6_56jqo")]([ExtResource("7_c76ax"), ExtResource("8_almo6"), ExtResource("9_pxcij"), ExtResource("9_edkv4"), ExtResource("10_dtxf7"), ExtResource("11_5ptqa"), ExtResource("12_bhipn"), ExtResource("13_oigcv")])
+
+[node name="menu_pool" type="Node2D" parent="CyclingMenu" unique_id=1039756727]
+unique_name_in_owner = true
+
+[node name="Panel" parent="CyclingMenu/menu_pool" unique_id=1434496737 instance=ExtResource("2_gmfap")]
+
+[node name="Hiddenposition" type="Marker2D" parent="CyclingMenu" unique_id=1168578640]
+unique_name_in_owner = true
+position = Vector2(248, 256)
+
+[node name="SeperationValue" type="Marker2D" parent="CyclingMenu" unique_id=133794011]
+unique_name_in_owner = true
+position = Vector2(0, 72)
+
+[node name="HeightValue" type="Marker2D" parent="CyclingMenu" unique_id=1051292037]
+unique_name_in_owner = true
+position = Vector2(-32, 0)
+
+[node name="Shift_Sound" type="AudioStreamPlayer" parent="CyclingMenu" unique_id=275126928]
+stream = ExtResource("10_f1dxl")
+bus = &"Sound_Effects"
+
+[node name="SelectSound" type="AudioStreamPlayer" parent="CyclingMenu" unique_id=1035614469]
+stream = ExtResource("11_i721k")
+volume_db = 6.797
+bus = &"Sound_Effects"
+
+[node name="CubesUp" type="Sprite2D" parent="CyclingMenu" unique_id=358240258]
+position = Vector2(-728, 48)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("15_vto0u")
+
+[node name="CubesDown" type="Sprite2D" parent="CyclingMenu" unique_id=1810447382]
+position = Vector2(-728, 448)
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("16_6nqgm")
+
+[node name="Overlay" type="Control" parent="." unique_id=1347488372]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+theme = SubResource("Theme_bmxtx")
+
+[node name="Panel2" type="Panel" parent="Overlay" unique_id=1644339028]
+layout_mode = 0
+offset_left = 784.0
+offset_top = 48.0
+offset_right = 800.0
+offset_bottom = 608.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_ioxb5")
+
+[node name="Panel3" type="Panel" parent="Overlay" unique_id=1050781574]
+layout_mode = 0
+offset_left = 800.0
+offset_top = 624.0
+offset_right = 1616.0
+offset_bottom = 672.0
+rotation = -3.14159
+
+[node name="Panel" type="Panel" parent="Overlay" unique_id=1328322359]
+layout_mode = 0
+offset_left = -8.0
+offset_right = 808.0
+offset_bottom = 48.0
+
+[node name="AlbumDisplay" type="PanelContainer" parent="." unique_id=788095293]
+offset_left = 32.0
+offset_top = 72.0
+offset_right = 448.0
+offset_bottom = 536.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+theme = SubResource("Theme_vmdkr")
+script = ExtResource("7_rrtb5")
+
+[node name="AlbumText" type="TextureRect" parent="AlbumDisplay" unique_id=1797402298]
+unique_name_in_owner = true
+layout_mode = 2
+texture = ExtResource("8_t0yvh")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="HiddenImage" type="TextureRect" parent="AlbumDisplay/AlbumText" unique_id=1403270170]
+unique_name_in_owner = true
+layout_mode = 0
+offset_right = 386.0
+offset_bottom = 434.0
+texture = ExtResource("8_t0yvh")
+expand_mode = 4
+stretch_mode = 5
+
+[node name="ShowSpectrum" parent="." unique_id=423313385 instance=ExtResource("2_exsua")]
+position = Vector2(246, 111)
+rotation = 1.57079
+VU_COUNT = 39
+WIDTH = 390
+HEIGHT = 200
+Line_color = Color(0.0509804, 0.631373, 0, 1)
+
+[node name="Enter" type="Sprite2D" parent="." unique_id=2019762005]
+position = Vector2(240, 513)
+scale = Vector2(0.595, 0.595)
+texture = ExtResource("12_0pot4")
+
+[node name="Url_Opener" type="Node2D" parent="." unique_id=1499518764]
+position = Vector2(224, 304)
+script = ExtResource("15_5r8ca")
+
+[node name="UP" parent="." unique_id=1711499846 instance=ExtResource("21_456qa")]
+unique_name_in_owner = true
+offset_top = 40.0
+offset_bottom = 128.0
+
+[node name="SELECT" parent="." unique_id=2075548291 instance=ExtResource("21_fvnmf")]
+unique_name_in_owner = true
+offset_left = 733.0
+offset_top = 344.0
+offset_right = 796.0
+offset_bottom = 404.0
+
+[node name="DOWN" parent="." unique_id=836230176 instance=ExtResource("21_456qa")]
+unique_name_in_owner = true
+offset_left = 792.0
+offset_top = 584.0
+offset_right = 880.0
+offset_bottom = 672.0
+rotation = 3.14159
+
+[node name="LoopingTextTop" type="TextureRect" parent="." unique_id=1416815376]
+material = SubResource("ShaderMaterial_sb8sr")
+offset_left = -1.0
+offset_top = 20.0
+offset_right = 807.0
+offset_bottom = 42.0
+texture = ExtResource("24_3akct")
+stretch_mode = 1
+
+[node name="LoopingTextTop2" type="TextureRect" parent="." unique_id=683891325]
+material = SubResource("ShaderMaterial_sb8sr")
+offset_left = 799.0
+offset_top = 604.0
+offset_right = 1607.0
+offset_bottom = 626.0
+rotation = -3.14159
+texture = ExtResource("24_3akct")
+stretch_mode = 1
+
+[connection signal="option_changed" from="CyclingMenu" to="MusicManager" method="_on_cycling_menu_option_changed"]
+[connection signal="option_changed" from="CyclingMenu" to="AlbumDisplay" method="_on_cycling_menu_option_changed"]
+[connection signal="selected_option" from="CyclingMenu" to="MusicManager" method="_on_cycling_menu_selected_option"]
+[connection signal="selected_option" from="CyclingMenu" to="CyclingMenu" method="_on_selected_option"]
+[connection signal="selected_option" from="CyclingMenu" to="Url_Opener" method="_on_cycling_menu_selected_option"]
+[connection signal="start" from="CyclingMenu" to="MusicManager" method="_on_cycling_menu_start"]
+[connection signal="start" from="CyclingMenu" to="AlbumDisplay" method="_on_cycling_menu_start"]
+[connection signal="pressed" from="UP" to="CyclingMenu" method="_on_up_pressed"]
+[connection signal="pressed" from="SELECT" to="CyclingMenu" method="_on_select_pressed"]
+[connection signal="pressed" from="DOWN" to="CyclingMenu" method="_on_down_pressed"]

@@ -32,7 +32,7 @@ func setNote(_channel : int, _speed : float, _coordPerFrame : float, _type : int
 	note_type = _type
 	
 	# Taiko style coloring (0: Red/Don, 1: Blue/Ka)
-	var colors = [Color("#F34728"), Color("#45C1E9")]
+	var colors = [Color("09a2b9ff"), Color("b04212ff")]
 	if note_type < colors.size():
 		var style = $bar.get_theme_stylebox("panel").duplicate()
 		style.bg_color = colors[note_type]

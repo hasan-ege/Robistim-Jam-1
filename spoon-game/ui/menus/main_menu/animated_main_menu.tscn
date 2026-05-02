@@ -1,0 +1,100 @@
+[gd_scene format=3 uid="uid://b6k5nnpbypshi"]
+
+[ext_resource type="PackedScene" uid="uid://c6k5nnpbypshi" path="res://addons/maaacks_game_template/base/nodes/menus/main_menu/main_menu.tscn" id="1_base"]
+[ext_resource type="Script" uid="uid://jm254c40xmet" path="res://ui/menus/main_menu/animated_main_menu.gd" id="2_script"]
+[ext_resource type="Theme" uid="uid://dq882pb3tsxpq" path="res://flash_theme.tres" id="3_theme"]
+[ext_resource type="PackedScene" uid="uid://b80g31vcfhncl" path="res://addons/maaacks_game_template/scenes/windows/main_menu_options_window.tscn" id="4_options"]
+[ext_resource type="PackedScene" uid="uid://0c2ihcf4mc0i" path="res://addons/maaacks_game_template/scenes/windows/main_menu_credits_window.tscn" id="5_credits"]
+[ext_resource type="PackedScene" uid="uid://c5k5nnpbypshi" path="res://ui/menus/level_select/animated_level_select.tscn" id="6_level_select"]
+[ext_resource type="PackedScene" uid="uid://cwt4p3bufkke5" path="res://addons/maaacks_game_template/base/nodes/windows/confirmation_overlaid_window.tscn" id="7_confirm"]
+[ext_resource type="Shader" uid="uid://delvvvb6vuxfm" path="res://ui/transition shaders/Background.gdshader" id="7_g1a8n"]
+[ext_resource type="Texture2D" uid="uid://ddsva1l1l2iad" path="res://green.PNG" id="8_6g1o7"]
+[ext_resource type="FontFile" uid="uid://55ug4oogc156" path="res://ui/text/FunkySmile-Regular.otf" id="9_n3jdj"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_evouj"]
+shader = ExtResource("7_g1a8n")
+shader_parameter/basecolor = Color(0.0646, 0.21607007, 0.34, 1)
+shader_parameter/animate_speed = 0.001
+shader_parameter/resolution = 1.0
+
+[node name="MainMenu" unique_id=1626316327 instance=ExtResource("1_base")]
+theme = ExtResource("3_theme")
+script = ExtResource("2_script")
+slide_offset = 400.0
+slide_duration = 0.6
+stagger_delay = 0.1
+focus_slide_distance = 50.0
+level_select_packed_scene = ExtResource("6_level_select")
+game_scene_path = "res://levels/level1.tscn"
+options_packed_scene = ExtResource("4_options")
+credits_packed_scene = ExtResource("5_credits")
+
+[node name="Green" type="Sprite2D" parent="." index="2" unique_id=1009199782]
+material = SubResource("ShaderMaterial_evouj")
+position = Vector2(575.50006, 321.5)
+scale = Vector2(8.78626, 6.259616)
+texture = ExtResource("8_6g1o7")
+
+[node name="BackgroundTextureRect" parent="." index="3" unique_id=1940176448]
+modulate = Color(0.129412, 0.129412, 0.129412, 1)
+
+[node name="MenuContainer" parent="." index="4" unique_id=396616752]
+theme_override_constants/margin_left = 100
+
+[node name="TitleLabel" parent="MenuContainer/TitleMargin/TitleContainer" parent_id_path=PackedInt32Array(556427956) index="0" unique_id=359406872]
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_fonts/font = ExtResource("9_n3jdj")
+theme_override_font_sizes/font_size = 72
+text = "Rhythm Game Project"
+
+[node name="MenuButtonsBoxContainer" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer" parent_id_path=PackedInt32Array(116448484) index="0" unique_id=2017477786]
+anchors_preset = 4
+anchor_left = 0.0
+anchor_right = 0.0
+offset_left = 0.0
+offset_right = 200.0
+grow_horizontal = 1
+alignment = 0
+
+[node name="ContinueGameButton" type="Button" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" index="0" unique_id=1214654232]
+unique_name_in_owner = true
+visible = false
+layout_mode = 2
+text = "Continue"
+
+[node name="NewGameButton" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" index="1" unique_id=2044537792]
+visible = false
+theme_override_fonts/font = ExtResource("9_n3jdj")
+
+[node name="LevelSelectButton" type="Button" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" index="2" unique_id=1986812931]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_fonts/font = ExtResource("9_n3jdj")
+text = "Freeplay"
+
+[node name="OptionsButton" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" index="3" unique_id=1486236076]
+theme_override_fonts/font = ExtResource("9_n3jdj")
+
+[node name="CreditsButton" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" index="4" unique_id=301223169]
+theme_override_fonts/font = ExtResource("9_n3jdj")
+
+[node name="ExitButton" parent="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer" index="5" unique_id=1750454379]
+theme_override_fonts/font = ExtResource("9_n3jdj")
+
+[node name="VersionMargin" parent="." index="5" unique_id=1732528471]
+visible = false
+
+[node name="NewGameConfirmation" parent="." index="6" unique_id=2072172204 instance=ExtResource("7_confirm")]
+unique_name_in_owner = true
+visible = false
+layout_mode = 1
+offset_left = -200.0
+offset_top = -100.0
+offset_right = 200.0
+offset_bottom = 100.0
+text = "Starting a new game will overwrite your current progress. Continue?"
+title = "New Game"
+
+[connection signal="pressed" from="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer/ContinueGameButton" to="." method="_on_continue_game_button_pressed"]
+[connection signal="pressed" from="MenuContainer/MenuButtonsMargin/MenuButtonsContainer/MenuButtonsBoxContainer/LevelSelectButton" to="." method="_on_level_select_button_pressed"]
+[connection signal="confirmed" from="NewGameConfirmation" to="." method="_on_new_game_confirmation_confirmed"]

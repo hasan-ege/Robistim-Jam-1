@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Song_Sample" load_steps=4 format=3 uid="uid://ckbrofrs8p8il"]
+
+[ext_resource type="Texture2D" uid="uid://d0my24ulvmeou" path="res://Music/Paradox/teckgeck_megamix___cover_art_by_systemst91_dfca95r-fullview.jpg" id="1_1qg6p"]
+[ext_resource type="AudioStream" uid="uid://c2gybwj6pnar2" path="res://Music/DeepSeaVibes/CostalWaves.ogg" id="2_p4snd"]
+[ext_resource type="Script" path="res://Code/SongSample.gd" id="3_ab84t"]
+
+[resource]
+script = ExtResource("3_ab84t")
+SongTitle = "CostalWaves"
+SongArtist = "TeckGeck X SystemST91"
+Album = ExtResource("1_1qg6p")
+Sample = ExtResource("2_p4snd")
+Url = "https://www.youtube.com/watch?v=Fd5th9L2riM"

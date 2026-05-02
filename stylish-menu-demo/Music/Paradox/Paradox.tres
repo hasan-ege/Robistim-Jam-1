@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Song_Sample" load_steps=4 format=3 uid="uid://lbmq3j7jihit"]
+
+[ext_resource type="Texture2D" uid="uid://d0my24ulvmeou" path="res://Music/Paradox/teckgeck_megamix___cover_art_by_systemst91_dfca95r-fullview.jpg" id="1_g64kl"]
+[ext_resource type="AudioStream" uid="uid://1cd5pjgacay4" path="res://Music/Paradox/Paradox.ogg" id="2_ylou7"]
+[ext_resource type="Script" path="res://Code/SongSample.gd" id="3_vwcyt"]
+
+[resource]
+script = ExtResource("3_vwcyt")
+SongTitle = "Paradox"
+SongArtist = "TeckGeck X SystemST91"
+Album = ExtResource("1_g64kl")
+Sample = ExtResource("2_ylou7")
+Url = "https://www.youtube.com/watch?v=Fd5th9L2riM"

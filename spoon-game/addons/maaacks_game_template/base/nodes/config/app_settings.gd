@@ -123,13 +123,17 @@ static func set_audio_from_config() -> void:
 
 # Video
 
-static func set_fullscreen_enabled(value : bool, window : Window) -> void:
-	window.mode = Window.MODE_EXCLUSIVE_FULLSCREEN if (value) else Window.MODE_WINDOWED
+static func set_fullscreen_enabled(value : bool, window : Window, update_config : bool = true) -> void:
+	window.mode = Window.MODE_FULLSCREEN if (value) else Window.MODE_WINDOWED
+	if update_config:
+		PlayerConfig.set_config(VIDEO_SECTION, FULLSCREEN, value)
 
 static func set_resolution(value : Vector2i, window : Window, update_config : bool = true) -> void:
 	if value.x == 0 or value.y == 0:
 		return
 	window.size = value
+	if not is_fullscreen(window):
+		window.move_to_center()
 	if update_config:
 		PlayerConfig.set_config(VIDEO_SECTION, SCREEN_RESOLUTION, value)
 
@@ -141,7 +145,8 @@ static func get_resolution(window : Window) -> Vector2i:
 	return PlayerConfig.get_config(VIDEO_SECTION, SCREEN_RESOLUTION, current_resolution)
 
 static func _on_window_size_changed(window: Window) -> void:
-	PlayerConfig.set_config(VIDEO_SECTION, SCREEN_RESOLUTION, window.size)
+	if not is_fullscreen(window):
+		PlayerConfig.set_config(VIDEO_SECTION, SCREEN_RESOLUTION, window.size)
 
 static func _set_fullscreen_from_config(window: Window) -> bool:
 	var fullscreen_enabled : bool = is_fullscreen(window)

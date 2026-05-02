@@ -107,7 +107,11 @@ func _on_exit_button_pressed() -> void:
 	_show_window(exit_confirmation)
 
 func _on_restart_confirmation_confirmed() -> void:
-	SceneLoader.reload_current_scene()
+	var current_scene_path = get_tree().current_scene.scene_file_path
+	if not current_scene_path.is_empty():
+		SceneLoader.load_scene(current_scene_path)
+	else:
+		SceneLoader.reload_current_scene()
 	close()
 
 func _on_main_menu_confirmation_confirmed():

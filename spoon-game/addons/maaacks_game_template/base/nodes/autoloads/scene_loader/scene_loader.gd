@@ -57,17 +57,45 @@ func get_resource() -> Resource:
 func change_scene_to_resource() -> void:
 	if debug_enabled:
 		return
+	
+	if has_node("/root/TransitionManager"):
+		var tm = get_node("/root/TransitionManager")
+		tm.color_rect.visible = true
+		tm.animation_player.play("fade_out")
+		await tm.animation_player.animation_finished
+
 	var err = get_tree().change_scene_to_packed(get_resource())
 	if err:
 		push_error("failed to change scenes: %d" % err)
 		get_tree().quit()
+		return
+		
+	if has_node("/root/TransitionManager"):
+		var tm = get_node("/root/TransitionManager")
+		tm.animation_player.play("fade_in")
+		await tm.animation_player.animation_finished
+		tm.color_rect.visible = false
 
 func change_scene_to_loading_screen() -> void:
 	_background_loading = false
+	
+	if has_node("/root/TransitionManager"):
+		var tm = get_node("/root/TransitionManager")
+		tm.color_rect.visible = true
+		tm.animation_player.play("fade_out")
+		await tm.animation_player.animation_finished
+
 	var err = get_tree().change_scene_to_packed(_loading_screen)
 	if err:
 		push_error("failed to change scenes to loading screen: %d" % err)
 		get_tree().quit()
+		return
+		
+	if has_node("/root/TransitionManager"):
+		var tm = get_node("/root/TransitionManager")
+		tm.animation_player.play("fade_in")
+		await tm.animation_player.animation_finished
+		tm.color_rect.visible = false
 
 func set_loading_screen(value : String) -> void:
 	loading_screen_path = value

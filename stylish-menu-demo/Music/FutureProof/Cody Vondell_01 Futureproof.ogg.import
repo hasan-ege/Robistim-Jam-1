@@ -1,0 +1,19 @@
+[remap]
+
+importer="oggvorbisstr"
+type="AudioStreamOggVorbis"
+uid="uid://d36trdc31rbs7"
+path="res://.godot/imported/Cody Vondell_01 Futureproof.ogg-bacaf66686391162f6cf5e27da8daa7f.oggvorbisstr"
+
+[deps]
+
+source_file="res://Music/FutureProof/Cody Vondell_01 Futureproof.ogg"
+dest_files=["res://.godot/imported/Cody Vondell_01 Futureproof.ogg-bacaf66686391162f6cf5e27da8daa7f.oggvorbisstr"]
+
+[params]
+
+loop=true
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

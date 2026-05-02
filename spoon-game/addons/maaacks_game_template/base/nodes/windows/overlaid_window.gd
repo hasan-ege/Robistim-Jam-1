@@ -69,6 +69,18 @@ func _overlaid_window_setup():
 func _on_visibility_changed() -> void:
 	if is_visible_in_tree():
 		_overlaid_window_setup()
+		_animate_entry()
+
+func _animate_entry() -> void:
+	# Basic pop-up animation
+	# Set pivot to center for scaling
+	pivot_offset = size / 2.0
+	scale = Vector2(0.8, 0.8)
+	modulate.a = 0
+	
+	var tween = create_tween().set_parallel(true).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+	tween.tween_property(self, "scale", Vector2.ONE, 0.3)
+	tween.tween_property(self, "modulate:a", 1.0, 0.2)
 
 func _enter_tree() -> void:
 	_scene_tree = get_tree()

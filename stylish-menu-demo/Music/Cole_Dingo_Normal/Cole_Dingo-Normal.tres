@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="Song_Sample" load_steps=4 format=3 uid="uid://bdhgm61qtljke"]
+
+[ext_resource type="Script" path="res://Code/SongSample.gd" id="1_cceu6"]
+[ext_resource type="Texture2D" uid="uid://bhr86f8uebyxq" path="res://Music/Cole_Dingo_Normal/eT31TSym.jpg" id="1_fn6th"]
+[ext_resource type="AudioStream" uid="uid://ca7l5hkyd834s" path="res://Music/Cole_Dingo_Normal/ColeDingo_Normal_Sample.ogg" id="2_y4soe"]
+
+[resource]
+script = ExtResource("1_cceu6")
+SongTitle = "Cole_Dingo-Normal"
+SongArtist = "SystemST91"
+Album = ExtResource("1_fn6th")
+Sample = ExtResource("2_y4soe")
+Url = "https://www.youtube.com/watch?v=bEFN7bSu-Zw"
