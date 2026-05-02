@@ -191,6 +191,18 @@ func update_selection(immediate: bool = false) -> void:
 func select_level() -> void:
 	if is_transitioning: return
 	
+	# Stop the preview music
+	ProjectMusicController.stop()
+	
+	# Play selection sound
+	var casette_sfx = load("res://Music/casette.wav")
+	var player = AudioStreamPlayer.new()
+	player.stream = casette_sfx
+	player.bus = "SFX"
+	add_child(player)
+	player.play()
+	player.finished.connect(player.queue_free)
+	
 	# Visual feedback for selection
 	var card = cards[current_index]
 	var tween = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_OUT)
@@ -198,6 +210,9 @@ func select_level() -> void:
 	tween.tween_property(card, "scale", Vector2(scale_highlight, scale_highlight), 0.1)
 	
 	await tween.finished
+	
+	# Small extra delay to let the sound be heard
+	await get_tree().create_timer(0.4).timeout
 	
 	GameState.set_checkpoint_level_path(level_paths[current_index])
 	if get_signal_connection_list("level_selected").is_empty():
