@@ -248,7 +248,7 @@ func _ready() -> void:
 	
 	# Tuş atamalarını garantiye al
 	if keycodes.size() < 2:
-		keycodes = PackedStringArray(["D", "K"])
+		keycodes = PackedStringArray(["Blue", "Brown"])
 	
 	# Nota verilerini kronolojik olarak sıralar
 	if noteArray.size() > 0 and noteArray[0].size() > 0:
@@ -542,7 +542,7 @@ func keyPressed(key_index: int) -> void:
 	if get_node_or_null("ui/target_circle"):
 		var tc = get_node("ui/target_circle")
 		tc.pivot_offset = tc.size / 2
-		var flash_color = Color("#F34728") if key_index == 0 else Color("#45C1E9")
+		var flash_color = Color("09a2b9ff") if key_index == 0 else Color("b04212ff")
 		
 		var tw = get_tree().create_tween()
 		tw.set_parallel(true)
@@ -566,7 +566,7 @@ func keyPressed(key_index: int) -> void:
 				if particle_pool.size() > 0:
 					var p = particle_pool[particle_index]
 					p.global_position = n.global_position
-					var p_color = Color("#F34728") if key_index == 0 else Color("#45C1E9")
+					var p_color = Color("09a2b9ff") if key_index == 0 else Color("b04212ff")
 					p.color = p_color
 					
 					if n.score == "Perfect":

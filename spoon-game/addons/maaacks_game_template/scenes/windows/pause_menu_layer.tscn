@@ -18,7 +18,7 @@ custom_minimum_size = Vector2(256, 312)
 theme = ExtResource("6_theme")
 script = ExtResource("3_y10kk")
 options_menu_scene = ExtResource("4_fue6i")
-main_menu_scene_path = ""
+main_menu_scene_path = "res://ui/menus/level_select/animated_level_select.tscn"
 restart_confirmation_node_path = NodePath("../RestartConfirmation")
 main_menu_confirmation_node_path = NodePath("../MainMenuConfirmation")
 exit_confirmation_node_path = NodePath("../ExitConfirmation")
@@ -64,7 +64,7 @@ text = "Options"
 [node name="MainMenuButton" type="Button" parent="PauseMenu/ContentContainer/BoxContainer/MenuButtonsMargin/MenuButtons" parent_id_path=PackedInt32Array(6629802, 1371114575) index="5" unique_id=920922356]
 unique_name_in_owner = true
 layout_mode = 2
-text = "Main Menu"
+text = "Level Select"
 
 [node name="ExitButton" type="Button" parent="PauseMenu/ContentContainer/BoxContainer/MenuButtonsMargin/MenuButtons" parent_id_path=PackedInt32Array(6629802, 1371114575) index="6" unique_id=2037900804]
 unique_name_in_owner = true

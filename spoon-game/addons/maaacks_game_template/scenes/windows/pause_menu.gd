@@ -101,17 +101,13 @@ func _on_options_button_pressed() -> void:
 	_load_and_show_menu(options_menu_scene)
 
 func _on_main_menu_button_pressed() -> void:
-	_show_window(main_menu_confirmation)
+	_load_scene(get_main_menu_scene_path())
 
 func _on_exit_button_pressed() -> void:
 	_show_window(exit_confirmation)
 
 func _on_restart_confirmation_confirmed() -> void:
-	var current_scene_path = get_tree().current_scene.scene_file_path
-	if not current_scene_path.is_empty():
-		SceneLoader.load_scene(current_scene_path)
-	else:
-		SceneLoader.reload_current_scene()
+	SceneLoader.reload_current_scene()
 	close()
 
 func _on_main_menu_confirmation_confirmed():

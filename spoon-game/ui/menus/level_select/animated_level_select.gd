@@ -193,4 +193,4 @@ func _on_back_button_pressed() -> void:
 	if get_parent().has_method("_close_sub_menu"):
 		get_parent()._close_sub_menu()
 	else:
-		hide()
+		SceneLoader.load_scene("res://ui/menus/main_menu/animated_main_menu.tscn")

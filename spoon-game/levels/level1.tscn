@@ -772,10 +772,10 @@ expand_mode = 1
 stretch_mode = 5
 
 [node name="combo" type="Label" parent="." unique_id=1887642894]
-offset_left = 2.0
-offset_top = 26.0
-offset_right = 102.0
-offset_bottom = 93.0
+offset_left = 467.0
+offset_top = 219.0
+offset_right = 567.0
+offset_bottom = 286.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 8
 theme_override_font_sizes/font_size = 48
