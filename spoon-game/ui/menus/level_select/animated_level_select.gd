@@ -17,11 +17,12 @@ signal level_selected
 	"Final Rhythm"
 ]
 
-@export var level_music_paths : Array[String] = [
-	"res://assets/raspberry_jam.ogg",
-	"res://assets/raspberry_jam.ogg",
-	"res://assets/raspberry_jam.ogg"
-]
+# Şarkı önizlemeleri için merkezi liste (Sahne ismiyle eşleşir)
+@export var level_music_registry : Dictionary = {
+	"level1": "res://assets/raspberry_jam.ogg",
+	"level2": "res://assets/mylittlebotsmixver3.ogg",
+	"level3": "res://assets/rhythm_factorymix4.ogg"
+}
 
 @export var card_size : Vector2 = Vector2(280, 280)
 @export var card_spacing : float = 320.0
@@ -144,7 +145,8 @@ func update_selection(immediate: bool = false) -> void:
 		level_name_label.modulate.a = 0
 		var text_tween = create_tween()
 		text_tween.tween_property(level_name_label, "modulate:a", 1.0, 0.2)
-		_update_preview()
+	
+	_update_preview()
 	
 	for i in range(cards.size()):
 		var card = cards[i]
@@ -214,18 +216,26 @@ func select_level() -> void:
 	# Small extra delay to let the sound be heard
 	await get_tree().create_timer(0.4).timeout
 	
-	GameState.set_checkpoint_level_path(level_paths[current_index])
-	if get_signal_connection_list("level_selected").is_empty():
-		SceneLoader.load_scene(level_paths[current_index])
-	else:
-		level_selected.emit()
+	var selected_path = level_paths[current_index]
+	GameState.set_checkpoint_level_path(selected_path)
+	print("[DEBUG] Doğrudan Sahne Yükleniyor: ", selected_path)
+	
+	# Sinyal beklemek yerine doğrudan sahneyi yüklüyoruz. Bu, her seferinde level 1'e atma sorununu çözer.
+	SceneLoader.load_scene(selected_path)
 
 func _update_preview() -> void:
-	if current_index >= 0 and current_index < level_music_paths.size():
-		var music_path = level_music_paths[current_index]
+	var current_scene_path = level_paths[current_index]
+	var scene_key = current_scene_path.get_file().get_basename()
+	
+	var music_path = ""
+	if level_music_registry.has(scene_key):
+		music_path = level_music_registry[scene_key]
+	
+	if music_path != "":
 		var stream = load(music_path)
 		if stream:
-			ProjectMusicController.play_stream(stream, 30.0, -10.0)
+			ProjectMusicController.play_stream(stream, 0.0, -10.0)
+			print("[DEBUG] Menü Önizleme Çalıyor: ", scene_key)
 
 func _on_back_button_pressed() -> void:
 	# Resume menu music

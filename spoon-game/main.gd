@@ -14,12 +14,23 @@ const AUTOPLAY : bool = false
 const RECORD_MODE : bool = false
 # Kanalın tuş kodları (Input Map üzerinden eklenebilir)
 @export var keycodes : PackedStringArray
-# Müziği buradan veya Editor üzerinden seçebilirsin
-@export var music : AudioStream
-# Müzik ses seviyesi (0 ile 1 arası)
-@export_range(0, 1) var music_volume : float = 1.0
-# Efekt (Alkış) ses seviyesi (0 ile 1 arası)
-@export_range(0, 1) var sfx_volume : float = 1.0
+# Müziği buradan veya Editor üzerinden seçebilirsin. Değiştiğinde otomatik olarak AudioStreamPlayer'a yansır.
+@export var music : AudioStream :
+	set(value):
+		music = value
+		if audio_node:
+			audio_node.stream = music
+			print("[DEBUG] Müzik değiştirildi: ", music.resource_path if music else "Boş")
+
+# Her level için varsayılan müzikler (Eğer 'music' boşsa buradaki eşleşmeye bakar)
+@export var level_music_registry : Dictionary = {
+	"level1": preload("res://assets/raspberry_jam.ogg"),
+	"level2": preload("res://assets/mylittlebotsmixver3.ogg"),
+	"level3": preload("res://assets/rhythm_factorymix4.ogg"),
+	"raspberry_jam": preload("res://assets/raspberry_jam.ogg"),
+	"mylittlebotsmixver3": preload("res://assets/mylittlebotsmixver3.ogg"),
+	"rhythm_factorymix4": preload("res://assets/rhythm_factorymix4.ogg")
+}
 
 @export var text_miss : String = "Miss"
 @export var text_combo : String = "COMBO"
@@ -259,20 +270,28 @@ func _ready() -> void:
 	Engine.physics_ticks_per_second = 240
 	Input.use_accumulated_input = false
 	
-	if get_node_or_null("pressed1"):
-		get_node("pressed1").visible = false
-	
 	if (audio_node == null):
-		print("ERROR: AudioStreamPlayer node not found at path: ", audio_node_path)
+		print("[DEBUG] ERROR: AudioStreamPlayer node not found!")
 		return
-		
-	# Müziği değişkenden yükle
+	
+	print("\n--- [DEBUG] OYUN BAŞLATILIYOR ---")
+	var scene_path = scene_file_path # Doğrudan kendi dosya yoluna bak (Daha güvenli)
+	var scene_name = scene_path.get_file().get_basename()
+	print("[DEBUG] Mevcut Sahne Yolu: ", scene_path)
+	print("[DEBUG] Mevcut Sahne Adı: ", scene_name)
+
+	# Müziği registry'den öncelikli olarak yükle
+	if level_music_registry.has(scene_name) and level_music_registry[scene_name] != null:
+		music = level_music_registry[scene_name]
+		print("[DEBUG] Registry'den müzik eşleşti ve yüklendi: ", scene_name)
+	elif music == null:
+		print("[DEBUG] Registry'de bu sahne için müzik bulunamadı: ", scene_name)
+	
 	if (music != null):
 		audio_node.stream = music
-	
-	if (audio_node.stream == null):
-		print("ERROR: No music stream assigned!")
-		return
+		print("[DEBUG] Çalınacak Müzik: ", music.resource_path)
+	else:
+		print("[DEBUG] UYARI: Oynatılacak müzik yok!")
 
 	# Ses seviyelerini ayarla
 	audio_node.volume_db = linear_to_db(music_volume)
