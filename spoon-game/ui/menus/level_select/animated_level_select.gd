@@ -17,6 +17,12 @@ signal level_selected
 	"Final Rhythm"
 ]
 
+@export var level_music_paths : Array[String] = [
+	"res://assets/raspberry_jam.ogg",
+	"res://assets/raspberry_jam.ogg",
+	"res://assets/raspberry_jam.ogg"
+]
+
 @export var card_size : Vector2 = Vector2(280, 280)
 @export var card_spacing : float = 320.0
 @export var animation_duration : float = 0.4
@@ -35,6 +41,9 @@ func _ready() -> void:
 	# Ensure the game is not paused when returning to level select
 	get_tree().paused = false
 	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
+	
+	# Initial preview
+	_update_preview()
 	# Clean up any editor placeholders
 	for child in cards_container.get_children():
 		child.queue_free()
@@ -135,6 +144,7 @@ func update_selection(immediate: bool = false) -> void:
 		level_name_label.modulate.a = 0
 		var text_tween = create_tween()
 		text_tween.tween_property(level_name_label, "modulate:a", 1.0, 0.2)
+		_update_preview()
 	
 	for i in range(cards.size()):
 		var card = cards[i]
@@ -195,7 +205,18 @@ func select_level() -> void:
 	else:
 		level_selected.emit()
 
+func _update_preview() -> void:
+	if current_index >= 0 and current_index < level_music_paths.size():
+		var music_path = level_music_paths[current_index]
+		var stream = load(music_path)
+		if stream:
+			ProjectMusicController.play_stream(stream, 30.0, -10.0)
+
 func _on_back_button_pressed() -> void:
+	# Resume menu music
+	var menu_music = load("res://Music/contemplation.ogg")
+	ProjectMusicController.play_stream(menu_music, 0.0, 0.0)
+	
 	if get_parent().has_method("_close_sub_menu"):
 		get_parent()._close_sub_menu()
 	else:

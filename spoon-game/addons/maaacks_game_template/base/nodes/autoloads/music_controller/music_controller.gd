@@ -15,13 +15,13 @@ const MINIMUM_VOLUME_DB = -80
 @export var audio_bus : StringName = &"Music"
 
 @export_group("Blending")
-@export var fade_out_duration : float = 0.0 :
+@export var fade_out_duration : float = 1.0 :
 	set(value):
 		fade_out_duration = value
 		if fade_out_duration < 0:
 			fade_out_duration = 0
 			
-@export var fade_in_duration : float = 0.0 :
+@export var fade_in_duration : float = 1.0 :
 	set(value):
 		fade_in_duration = value
 		if fade_in_duration < 0:
@@ -44,12 +44,12 @@ func fade_out(duration : float = 0.0) -> Tween:
 func _set_sub_audio_volume_db(sub_volume_db : float) -> void:
 	AudioServer.set_bus_volume_db(blend_audio_bus_idx, sub_volume_db)
 
-func fade_in(duration : float = 0.0) -> Tween:
+func fade_in(duration : float = 0.0, target_volume_db : float = 0.0) -> Tween:
 	if is_zero_approx(duration): return
 	music_stream_player.bus = blend_audio_bus
 	AudioServer.set_bus_volume_db(blend_audio_bus_idx, MINIMUM_VOLUME_DB)
 	var tween = create_tween()
-	tween.tween_method(_set_sub_audio_volume_db, MINIMUM_VOLUME_DB, 0, duration)
+	tween.tween_method(_set_sub_audio_volume_db, MINIMUM_VOLUME_DB, target_volume_db, duration)
 	return tween
 
 func blend_to(target_volume_db : float, duration : float = 0.0) -> Tween:
@@ -82,9 +82,9 @@ func _fade_out_and_free() -> void:
 		await(tween.finished)
 	stream_player.queue_free()
 
-func _play_and_fade_in() -> void:
+func _play_and_fade_in(target_volume_db : float = 0.0) -> void:
 	play()
-	fade_in( fade_in_duration )
+	fade_in( fade_in_duration, target_volume_db )
 
 func _is_matching_stream(stream_player : AudioStreamPlayer) -> bool:
 	if stream_player.bus != audio_bus:
@@ -107,21 +107,21 @@ func _blend_and_remove_stream_player(stream_player : AudioStreamPlayer) -> void:
 	old_stream_player.queue_free()
 	_connect_stream_on_tree_exiting(music_stream_player)
 
-func _blend_and_connect_stream_player(stream_player : AudioStreamPlayer) -> void:
+func _blend_and_connect_stream_player(stream_player : AudioStreamPlayer, target_volume_db : float = 0.0) -> void:
 	stream_player.bus = blend_audio_bus
 	_fade_out_and_free()
 	music_stream_player = stream_player
-	_play_and_fade_in()
+	_play_and_fade_in(target_volume_db)
 	_connect_stream_on_tree_exiting(music_stream_player)
 
-func play_stream_player(stream_player : AudioStreamPlayer) -> void:
+func play_stream_player(stream_player : AudioStreamPlayer, target_volume_db : float = 0.0) -> void:
 	if stream_player == music_stream_player : return
 	if stream_player.stream == null and not empty_streams_stop_player:
 			return
 	if _is_matching_stream(stream_player) : 
 		_blend_and_remove_stream_player(stream_player)
 	else:
-		_blend_and_connect_stream_player(stream_player)
+		_blend_and_connect_stream_player(stream_player, target_volume_db)
 
 func get_stream_player(audio_stream : AudioStream) -> AudioStreamPlayer:
 	var stream_player := AudioStreamPlayer.new()
@@ -130,10 +130,10 @@ func get_stream_player(audio_stream : AudioStream) -> AudioStreamPlayer:
 	add_child(stream_player)
 	return stream_player
 
-func play_stream(audio_stream : AudioStream) -> AudioStreamPlayer:
+func play_stream(audio_stream : AudioStream, start_time : float = 0.0, target_volume_db : float = 0.0) -> AudioStreamPlayer:
 	var stream_player := get_stream_player(audio_stream)
-	stream_player.play.call_deferred()
-	play_stream_player( stream_player )
+	stream_player.play.call_deferred(start_time)
+	play_stream_player( stream_player, target_volume_db )
 	return stream_player
 
 func _clone_music_player(stream_player : AudioStreamPlayer) -> void:

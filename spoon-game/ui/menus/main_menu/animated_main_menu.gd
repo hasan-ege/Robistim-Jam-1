@@ -21,6 +21,10 @@ func _ready() -> void:
 	_show_continue_if_set()
 	_show_level_select_if_set()
 	
+	# Play main menu music
+	var menu_music = load("res://Music/contemplation.ogg")
+	ProjectMusicController.play_stream(menu_music)
+	
 	super._ready()
 	
 	# Collect all visible buttons in the container
