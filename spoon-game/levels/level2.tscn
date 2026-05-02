@@ -173,7 +173,7 @@ _data = {
 
 [node name="main" type="Node2D" unique_id=1109023294]
 script = ExtResource("1_2b8v7")
-keycodes = PackedStringArray("D", "K")
+keycodes = PackedStringArray("Blue", "Brown")
 music = ExtResource("2_0xm2m")
 speed = 1.5
 music_volume = 0.82

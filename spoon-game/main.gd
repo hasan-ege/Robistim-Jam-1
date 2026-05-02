@@ -639,29 +639,26 @@ func updateQueue() -> void:
 
 # Sistem girdilerini (Input) en yüksek hassasiyetle yakalar
 func _input(event: InputEvent) -> void:
-	if event is InputEventKey and not event.is_echo():
+	if not event.is_echo():
 		for i in range(len(keycodes)):
-			var k = OS.find_keycode_from_string(keycodes[i])
-			if event.keycode == k:
-				if event.is_pressed():
-					keyPressed(i)
-					if (RECORD_MODE):
-						recordStart = currentSongPos
-				else:
-					if (RECORD_MODE):
-						var duration = currentSongPos - recordStart
-						if duration < 0.2:
-							recorded_notes.append([snapped(recordStart, 0.01), i])
-						else:
-							recorded_notes.append([snapped(recordStart, 0.01), i, snapped(duration, 0.01)])
-						print("Kaydedildi: ", recorded_notes[-1])
+			if event.is_action_pressed(keycodes[i]):
+				keyPressed(i)
+				if (RECORD_MODE):
+					recordStart = currentSongPos
+			elif event.is_action_released(keycodes[i]):
+				if (RECORD_MODE):
+					var duration = currentSongPos - recordStart
+					if duration < 0.2:
+						recorded_notes.append([snapped(recordStart, 0.01), i])
+					else:
+						recorded_notes.append([snapped(recordStart, 0.01), i, snapped(duration, 0.01)])
+					print("Kaydedildi: ", recorded_notes[-1])
 
 # Tuşun basılı tutulup tutulmadığını görsel geri bildirim için kontrol eder
 func updateInputState() -> void:
 	pressed[0] = false
 	for i in range(len(keycodes)):
-		var key_code = OS.find_keycode_from_string(keycodes[i])
-		if Input.is_key_pressed(key_code):
+		if Input.is_action_pressed(keycodes[i]):
 			pressed[0] = true
 			break
 
