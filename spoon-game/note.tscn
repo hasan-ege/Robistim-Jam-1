@@ -1,17 +1,17 @@
 [gd_scene load_steps=5 format=3 uid="uid://bhl1tw7dyybxh"]
 
 [ext_resource type="Script" path="res://note.gd" id="1_dk57e"]
-[ext_resource type="Texture2D" path="res://assets/clap_icon.png" id="2_icon"]
+[ext_resource type="Texture2D" path="res://assets/clap.svg" id="2_icon"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_capsule"]
 bg_color = Color(0.537255, 0.537255, 0.537255, 1)
 border_width_left = 3
 border_width_right = 3
 border_color = Color(0, 0, 0, 1)
-corner_radius_top_left = 500
-corner_radius_top_right = 500
-corner_radius_bottom_right = 500
-corner_radius_bottom_left = 500
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_circle_end"]
 bg_color = Color(1, 1, 1, 1)
@@ -20,10 +20,10 @@ border_width_top = 3
 border_width_right = 3
 border_width_bottom = 3
 border_color = Color(0, 0, 0, 1)
-corner_radius_top_left = 500
-corner_radius_top_right = 500
-corner_radius_bottom_right = 500
-corner_radius_bottom_left = 500
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_circle"]
 bg_color = Color(1, 1, 1, 1)
@@ -32,10 +32,10 @@ border_width_top = 4
 border_width_right = 4
 border_width_bottom = 4
 border_color = Color(0, 0, 0, 1)
-corner_radius_top_left = 500
-corner_radius_top_right = 500
-corner_radius_bottom_right = 500
-corner_radius_bottom_left = 500
+corner_radius_top_left = 50
+corner_radius_top_right = 50
+corner_radius_bottom_right = 50
+corner_radius_bottom_left = 50
 shadow_color = Color(0, 0, 0, 0.2)
 shadow_size = 6
 shadow_offset = Vector2(0, 4)
@@ -45,23 +45,23 @@ shadow_offset = Vector2(0, 4)
 script = ExtResource("1_dk57e")
 
 [node name="LN_Effect" type="Panel" parent="."]
-offset_left = -50.0
-offset_right = 50.0
+offset_left = -20.0
+offset_right = 20.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_capsule")
 
 [node name="LN_EffectEnd" type="Panel" parent="."]
 visible = false
-offset_left = -50.0
-offset_top = -50.0
-offset_right = 50.0
-offset_bottom = 50.0
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_circle_end")
 
 [node name="bar" type="Panel" parent="."]
-offset_left = -50.0
-offset_top = -50.0
-offset_right = 50.0
-offset_bottom = 50.0
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_circle")
 
 [node name="icon" type="TextureRect" parent="bar"]
@@ -71,9 +71,6 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-rotation = -1.5708
-scale = Vector2(1, 1)
-pivot_offset = Vector2(50, 50)
 texture = ExtResource("2_icon")
 expand_mode = 1
 stretch_mode = 5

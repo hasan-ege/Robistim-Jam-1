@@ -15,7 +15,7 @@ compatibility/default_parent_skeleton_in_mesh_instance_3d=true
 [application]
 
 config/name="Rhythm Game Project"
-run/main_scene="uid://bu1uicxghtvyp"
+run/main_scene="uid://b2k4o2fy31h65"
 config/features=PackedStringArray("4.6", "Forward Plus")
 run/max_fps=60
 

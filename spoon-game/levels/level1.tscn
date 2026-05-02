@@ -1,12 +1,12 @@
-[gd_scene format=3 uid="uid://bhsmq5shk0nfv"]
+[gd_scene format=3]
 
 [ext_resource type="Script" uid="uid://dha6d5f4j3wly" path="res://main.gd" id="1_2b8v7"]
 [ext_resource type="AudioStream" uid="uid://e0tfolvail5x" path="res://assets/raspberry_jam.ogg" id="2_0xm2m"]
 [ext_resource type="AudioStream" uid="uid://c6sdkihlitwvv" path="res://assets/clap.mp3" id="3_clap"]
-[ext_resource type="Texture2D" uid="uid://babkqin4dnhkp" path="res://assets/clap_icon.png" id="4_icon"]
-[ext_resource type="Script" uid="uid://cyh0d64pfygbl" path="res://addons/maaacks_game_template/base/nodes/utilities/pause_menu_controller.gd" id="5_pause_ctrl"]
+[ext_resource type="Texture2D" uid="uid://buey5sumfmgiw" path="res://assets/clap.svg" id="4_icon"]
+[ext_resource type="Script" path="res://addons/maaacks_game_template/base/nodes/utilities/pause_menu_controller.gd" id="5_pause_ctrl"]
 [ext_resource type="PackedScene" uid="uid://dtic1o8crn6ji" path="res://addons/maaacks_game_template/scenes/windows/pause_menu_layer.tscn" id="6_pause_scene"]
-[ext_resource type="FontFile" uid="uid://dddxnupfsms4t" path="res://assets/SuperFunky-lgmWw.ttf" id="7_pdpul"]
+
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_circle"]
 bg_color = Color(1, 1, 0, 1)
@@ -21,6 +21,7 @@ corner_radius_bottom_right = 50
 corner_radius_bottom_left = 50
 shadow_color = Color(0, 0, 0, 0.2)
 shadow_size = 5
+
 
 [sub_resource type="Animation" id="Animation_ou11v"]
 resource_name = "Bad"
@@ -180,6 +181,7 @@ music_reverb_wet = 0.166
 music_reverb_room = 0.295
 sfx_reverb_wet = 0.377
 sfx_reverb_room = 0.66
+audio = NodePath("audio")
 
 [node name="background" type="ColorRect" parent="." unique_id=2030421314]
 offset_right = 1152.0
@@ -187,8 +189,9 @@ offset_bottom = 648.0
 color = Color(0.0705882, 0.0705882, 0.0784314, 1)
 
 [node name="lane_bg" type="ColorRect" parent="." unique_id=987654321]
+offset_top = 50.0
 offset_right = 1300.0
-offset_bottom = 160.0
+offset_bottom = 150.0
 color = Color(1, 1, 1, 0.05)
 
 [node name="audio" type="AudioStreamPlayer" parent="." unique_id=237148347]
@@ -199,49 +202,49 @@ position = Vector2(1200, 0)
 rotation = 1.5707964
 
 [node name="line_top" type="Line2D" parent="ui" unique_id=242933110]
-points = PackedVector2Array(0, 0, 0, 1200)
+points = PackedVector2Array(50, 0, 50, 1100)
 width = 2.0
 default_color = Color(0.407843, 0.407843, 0.407843, 1)
 
 [node name="line_bottom" type="Line2D" parent="ui" unique_id=308157706]
-points = PackedVector2Array(160, 0, 160, 1200)
+points = PackedVector2Array(150, 0, 150, 1100)
 width = 2.0
 default_color = Color(0.407843, 0.407843, 0.407843, 1)
 
 [node name="judgment_line" type="Line2D" parent="ui" unique_id=805947549]
 visible = false
-points = PackedVector2Array(20, 1050, 180, 1050)
+points = PackedVector2Array(50, 950, 150, 950)
 width = 4.0
 
 [node name="area_bad" type="ColorRect" parent="ui" unique_id=731769919]
 visible = false
 offset_left = 50.0
-offset_top = 950.0
+offset_top = 850.0
 offset_right = 150.0
-offset_bottom = 1150.0
+offset_bottom = 1050.0
 color = Color(1, 0.341176, 0.227451, 0.0588235)
 
 [node name="area_good" type="ColorRect" parent="ui" unique_id=1351884114]
 visible = false
 offset_left = 50.0
-offset_top = 1000.0
+offset_top = 900.0
 offset_right = 150.0
-offset_bottom = 1100.0
+offset_bottom = 1000.0
 color = Color(0, 1, 0.45098, 0.0784314)
 
 [node name="area_perfect" type="ColorRect" parent="ui" unique_id=1381200000]
 visible = false
 offset_left = 50.0
-offset_top = 1040.0
+offset_top = 940.0
 offset_right = 150.0
-offset_bottom = 1060.0
+offset_bottom = 960.0
 color = Color(0.713726, 0.360784, 1, 0.156863)
 
 [node name="target_circle" type="Panel" parent="ui" unique_id=999999999]
-offset_left = 20.0
-offset_top = 990.0
-offset_right = 140.0
-offset_bottom = 1110.0
+offset_left = 70.0
+offset_top = 920.0
+offset_right = 130.0
+offset_bottom = 980.0
 theme_override_styles/panel = SubResource("StyleBoxFlat_circle")
 
 [node name="target_icon" type="TextureRect" parent="ui/target_circle" unique_id=1589984888]
@@ -250,21 +253,23 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 11.00004
+offset_top = 47.000004
+offset_right = -8.999962
+offset_bottom = 27.0
 grow_horizontal = 2
 grow_vertical = 2
-rotation = -1.5708
-pivot_offset = Vector2(60, 60)
+rotation = -1.5868046
 texture = ExtResource("4_icon")
 expand_mode = 1
 
 [node name="combo" type="Label" parent="." unique_id=1887642894]
-offset_left = 175.0
-offset_top = 374.0
-offset_right = 275.0
-offset_bottom = 451.0
+offset_left = 100.0
+offset_top = 60.0
+offset_right = 200.0
+offset_bottom = 118.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
 theme_override_constants/outline_size = 8
-theme_override_fonts/font = ExtResource("7_pdpul")
 theme_override_font_sizes/font_size = 48
 text = "0"
 horizontal_alignment = 1
@@ -272,11 +277,9 @@ vertical_alignment = 1
 
 [node name="combo_label" type="Label" parent="combo" unique_id=36992775]
 layout_mode = 0
-offset_left = -1.0
-offset_top = 65.0
-offset_right = 99.0
-offset_bottom = 91.0
-theme_override_fonts/font = ExtResource("7_pdpul")
+offset_top = 40.0
+offset_right = 100.0
+offset_bottom = 66.0
 theme_override_font_sizes/font_size = 18
 text = "COMBO"
 horizontal_alignment = 1
@@ -290,15 +293,13 @@ position = Vector2(1200, 0)
 rotation = 1.5707964
 
 [node name="score" type="Label" parent="." unique_id=1855535630]
-offset_left = 485.0
-offset_top = 465.0
-offset_right = 685.0
-offset_bottom = 542.0
+offset_left = 150.0
+offset_top = 220.0
+offset_right = 350.0
+offset_bottom = 280.0
 pivot_offset = Vector2(100, 30)
 theme_override_colors/font_color = Color(1, 1, 1, 1)
-theme_override_fonts/font = ExtResource("7_pdpul")
 theme_override_font_sizes/font_size = 48
-text = "score"
 horizontal_alignment = 1
 vertical_alignment = 1
 
@@ -340,15 +341,16 @@ horizontal_alignment = 1
 layout_mode = 2
 text = "BACK TO MENU"
 
+
 [node name="pressed1" type="ColorRect" parent="." unique_id=1781690469]
 visible = false
-offset_top = 0.0
-offset_right = 1300.0
-offset_bottom = 160.0
+offset_top = 50.0
+offset_right = 1152.0
+offset_bottom = 150.0
 color = Color(1, 1, 1, 0.117647)
 
 [node name="hit_particles" type="CPUParticles2D" parent="." unique_id=1857194253]
-position = Vector2(150, 80)
+position = Vector2(22, 100)
 emitting = false
 amount = 25
 lifetime = 0.3
@@ -362,18 +364,13 @@ scale_amount_min = 2.0
 scale_amount_max = 6.0
 color = Color(1, 0.945098, 0.458824, 1)
 
-[node name="pressed2" type="ColorRect" parent="." unique_id=13773130]
-visible = false
-offset_right = 1300.0
-offset_bottom = 160.0
-color = Color(1, 1, 1, 0.117647)
-
 [node name="clap_sound" type="AudioStreamPlayer" parent="." unique_id=1096666813]
 stream = ExtResource("3_clap")
 
 [node name="anim" type="AnimationPlayer" parent="." unique_id=710688632]
 libraries/ = SubResource("AnimationLibrary_n70hp")
 
-[node name="PauseMenuController" type="Node" parent="." unique_id=1990167137]
+[node name="PauseMenuController" type="Node" parent="."]
 script = ExtResource("5_pause_ctrl")
 pause_menu_packed = ExtResource("6_pause_scene")
+
