@@ -45,6 +45,7 @@ shader_parameter/transparency = 1.0
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_swttf"]
 
 [node name="AnimatedLevelSelect" type="Control" unique_id=516305202]
+process_mode = 3
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0

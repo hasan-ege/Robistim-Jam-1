@@ -32,6 +32,9 @@ var cards : Array[Control] = []
 var is_transitioning : bool = false
 
 func _ready() -> void:
+	# Ensure the game is not paused when returning to level select
+	get_tree().paused = false
+	Input.set_mouse_mode(Input.MOUSE_MODE_VISIBLE)
 	# Clean up any editor placeholders
 	for child in cards_container.get_children():
 		child.queue_free()
@@ -187,7 +190,10 @@ func select_level() -> void:
 	await tween.finished
 	
 	GameState.set_checkpoint_level_path(level_paths[current_index])
-	level_selected.emit()
+	if get_signal_connection_list("level_selected").is_empty():
+		SceneLoader.load_scene(level_paths[current_index])
+	else:
+		level_selected.emit()
 
 func _on_back_button_pressed() -> void:
 	if get_parent().has_method("_close_sub_menu"):
